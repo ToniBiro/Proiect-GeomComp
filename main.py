@@ -1,3 +1,4 @@
 import prgc
 
-print('Hello world!')
+
+print("hello")
