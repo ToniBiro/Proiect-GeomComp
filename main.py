@@ -50,7 +50,7 @@ def intersection(seg1, seg2):
 def intersections(segments):
     seg_inter = []
     for i, segment1 in enumerate(segments):
-        for j in range(i+1, len(segemnts)):
+        for j in range(i+1, len(segments)):
             rez = intersection(segment1, segments[j])
             if rez:
                 seg_inter.append(rez) # it returns the coordinates of the intersections
