@@ -15,4 +15,11 @@ class Vector2D:
     def __repr__(self):
         return f'({self.x}, {self.y})'
 
+    @staticmethod
+    def read(file):
+        line = next(file)
+        x, y = map(float, line.split())
+        return Vector2D(x, y)
+
+
 Vector2D.ORIGIN = Vector2D(0, 0)
