@@ -1,6 +1,9 @@
 # gitignore template for Python projects taken from
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 
+# PyCharm settings
+/.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
