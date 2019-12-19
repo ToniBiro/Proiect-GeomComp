@@ -18,10 +18,17 @@ def draw (firstFig,      secondFig,      interFig,
         polyColor = polyColors[polyNo]
         ax[polyNo // 2, polyNo % 2].set_title(labels[polyNo])
         for polygon in polygons:
-            assert (len(polygon) > 3), "Not a polygon"
-            triangles = earclip(polygon)
-            ax[1, 1].add_collection(PolyCollection(triangles, edgecolor=polyColor, facecolor=polyColor))  # Main Plot polygon collection
-            ax[polyNo // 2, polyNo % 2].add_collection(PolyCollection(triangles, edgecolor=polyColor, facecolor=polyColor))  # Side Plot polygon collection
+            assert (len(polygon) > 0), "Not a polygon"
+            if   len(polygon) == 1:
+                ax[1, 1].plot ([polygon[0][0]], [polygon[0][0]], 'yo')                
+                ax[polyNo // 2, polyNo % 2].plot ([polygon[0][0]], [polygon[0][0]], 'yo')
+            elif len(polygon) == 2:
+                ax[1, 1].plot ([polygon[0][0],polygon[1][0]], [polygon[0][1]-0.1,polygon[1][1]-0.1], 'yo--')
+                ax[polyNo // 2, polyNo % 2].plot ([polygon[0][0],polygon[1][0]], [polygon[0][1]-0.1,polygon[1][1]-0.1], 'yo--')
+            else:
+                triangles = earclip(polygon)
+                ax[1, 1].add_collection(PolyCollection(triangles, edgecolor=polyColor, facecolor=polyColor))  # Main Plot polygon collection
+                ax[polyNo // 2, polyNo % 2].add_collection(PolyCollection(triangles, edgecolor=polyColor, facecolor=polyColor))  # Side Plot polygon collection
         polyNo += 1
 
     plt.autoscale()
