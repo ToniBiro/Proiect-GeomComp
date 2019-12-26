@@ -1,4 +1,1 @@
-import prgc
-
-
-print("hello")
+from prgc import Vector2D
