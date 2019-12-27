@@ -15,6 +15,9 @@ class Segment:
         slope = self.slope()
         return Line(slope, -1, self.fp.y - slope * self.fp.x)
 
+    def __repr__(self):
+        return f'Segment({self.fp} -> {self.sp})'
+
 
 class Line:
     def __init__(self, a, b, c):
@@ -47,9 +50,9 @@ def intersection(seg1, seg2):
     return None
 
 
-def intersect_segments(segments, callback):
+def intersect_segments(segments):
     for i, segment1 in enumerate(segments):
         for j in range(i+1, len(segments)):
             rez = intersection(segment1, segments[j])
             if rez: # it returns the coordinates of the intersections
-                callback(rez)
+                yield rez, segment1, segments[j]

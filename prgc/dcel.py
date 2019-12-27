@@ -1,5 +1,5 @@
 from io import StringIO
-from . import Vector2D
+from . import Vector2D, Segment
 
 
 class Vertex:
@@ -22,12 +22,24 @@ class Vertex:
     def __repr__(self):
         return f'Vertex{self.point}'
 
+    @property
+    def x(self):
+        return self.point.x
+
+    @property
+    def y(self):
+        return self.point.y
+
+
 class Edge:
     """
     Half-edge of the polygon.
 
     Attributes
     ----------
+    start: Vertex
+        the source vertex of this edge
+
     target: Vertex
         the destination vertex of this edge
 
@@ -51,17 +63,28 @@ class Edge:
         self.next = None
         self.prev = None
 
-    def link(self, node):
-        self.next = node
-        node.prev = self
+    def link(self, edge):
+        self.next = edge
+        edge.prev = self
 
     def __repr__(self):
         return f'Edge({self.prev.target} -> {self.target})'
+
+    @property
+    def start(self):
+        return self.twin.target
+
+    def to_segment(self):
+        segment = Segment(self.start, self.target)
+        segment.edge = self
+        return segment
 
 
 class Face:
     def __init__(self, edge):
         self.edge = edge
+        for edge in self:
+            edge.face = self
 
     def __iter__(self):
         start = self.edge
@@ -71,7 +94,6 @@ class Face:
         while current != start:
             yield current
             current = current.next
-
 
 class DCEL:
     def __init__(self):
@@ -112,9 +134,35 @@ class DCEL:
         e1.twin = e2
         e2.twin = e1
 
+    def split(self, edge, vertex):
+        assert vertex in self.vertices
+        assert edge in self.edges
+
+        a = edge.start
+        b = edge.target
+
+        twin = edge.twin
+
+        new_direct_edge = self.create_edge(vertex, b)
+        new_direct_edge.link(edge.next)
+
+        new_reverse_edge = self.create_edge(vertex, a)
+        new_reverse_edge.link(twin.next)
+
+        edge.link(new_direct_edge)
+        twin.link(new_reverse_edge)
+
+        edge.target = vertex
+        twin.target = vertex
+
+        self.make_twin(edge, new_reverse_edge)
+        self.make_twin(new_direct_edge, twin)
+
     def add_intersection(self, e1, e2):
         assert e1 in self.edges
         assert e2 in self.edges
+
+        raise NotImplementedError
 
     def read_polygon_from_file(self, file):
         num_vertices = int(next(file))
@@ -122,6 +170,40 @@ class DCEL:
             self.create_vertex(Vector2D.read(file))
             for _ in range(num_vertices)
         ]
+
+        inner_edges = []
+        outer_edges = []
+
+        for i in range(num_vertices - 1):
+            inner = self.create_edge(vertices[i], vertices[i + 1])
+            outer = self.create_edge(vertices[i + 1], vertices[i])
+
+            self.make_twin(inner, outer)
+
+            inner_edges.append(inner)
+            outer_edges.append(outer)
+
+        inner = self.create_edge(vertices[num_vertices - 1], vertices[0])
+        outer = self.create_edge(vertices[0], vertices[num_vertices - 1])
+
+        self.make_twin(inner, outer)
+
+        inner_edges.append(inner)
+        outer_edges.append(outer)
+
+
+        for i in range(num_vertices - 1):
+            inner_edges[i].link(inner_edges[i + 1])
+        inner_edges[-1].link(inner_edges[0])
+
+
+        for i in range(num_vertices - 1):
+            outer_edges[i + 1].link(outer_edges[i])
+        outer_edges[0].link(outer_edges[-1])
+
+        inner_face = self.create_face(inner_edges[0])
+
+        return inner_face
 
     def __repr__(self):
         with StringIO() as out:

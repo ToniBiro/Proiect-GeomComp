@@ -18,6 +18,9 @@ class Vector2D:
     def __repr__(self):
         return f'({self.x}, {self.y})'
 
+    def to_tuple(self):
+        return (self.x, self.y)
+
     @staticmethod
     def read(file):
         line = next(file)
