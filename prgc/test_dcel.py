@@ -1,5 +1,4 @@
-from .primitive import Vector2D
-from .dcel import DCEL
+from . import DCEL, Vector2D
 
 
 def create_triangle_and_segment():
@@ -33,6 +32,7 @@ def create_triangle_and_segment():
     bc.link(cd)
     cd.link(dc)
     dc.link(ca)
+    ca.link(ab)
 
     # Outside face
     dcel.create_face(ab)
@@ -55,3 +55,34 @@ def test_create_dcel():
     assert len(dcel.edges) == 8
     # Triangle and outside face
     assert len(dcel.faces) == 2
+
+
+def test_print_dcel():
+    dcel, triangle = create_triangle_and_segment()
+
+    for edge in triangle:
+        print(edge)
+
+    print()
+
+    for edge in dcel.faces[-1]:
+        print(edge)
+
+    assert False
+
+
+def test_add_intersection():
+    dcel, triangle = create_triangle_and_segment()
+
+    a = dcel.create_vertex(Vector2D(0.25, 0.25))
+    b = dcel.create_vertex(Vector2D(2.0, 2.0))
+
+    ab = dcel.create_edge(a, b)
+    ba = dcel.create_edge(b, a)
+
+    ab.link(ba)
+    ba.link(ab)
+
+    dcel.make_twin(ab, ba)
+
+    assert len(dcel.vertices) == 6

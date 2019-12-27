@@ -1,3 +1,4 @@
+from io import StringIO
 from . import Vector2D
 
 
@@ -18,6 +19,8 @@ class Vertex:
         self.point = point
         self.edge = None
 
+    def __repr__(self):
+        return f'Vertex{self.point}'
 
 class Edge:
     """
@@ -52,10 +55,22 @@ class Edge:
         self.next = node
         node.prev = self
 
+    def __repr__(self):
+        return f'Edge({self.prev.target} -> {self.target})'
+
 
 class Face:
     def __init__(self, edge):
         self.edge = edge
+
+    def __iter__(self):
+        start = self.edge
+        yield start
+
+        current = start.next
+        while current != start:
+            yield current
+            current = current.next
 
 
 class DCEL:
@@ -77,6 +92,9 @@ class DCEL:
         edge = Edge(end)
         self.edges.append(edge)
 
+        start.edge = edge
+        end.edge = edge
+
         return edge
 
     def create_face(self, edge):
@@ -93,3 +111,26 @@ class DCEL:
 
         e1.twin = e2
         e2.twin = e1
+
+    def add_intersection(self, e1, e2):
+        assert e1 in self.edges
+        assert e2 in self.edges
+
+    def read_polygon_from_file(self, file):
+        num_vertices = int(next(file))
+        vertices = [
+            self.create_vertex(Vector2D.read(file))
+            for _ in range(num_vertices)
+        ]
+
+    def __repr__(self):
+        with StringIO() as out:
+            print('DCEL(', file=out)
+
+            print(f'  Vertices: {self.vertices}', file=out)
+            print(f'  Edges: {self.edges}', file=out)
+            print(f'  Faces: {self.faces}', file=out)
+
+            print(')', file=out)
+
+            return out.getvalue()
