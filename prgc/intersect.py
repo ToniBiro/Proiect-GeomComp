@@ -1,4 +1,4 @@
-from . import Vector2D
+from prgc import Vector2D
 
 
 class Segment:
@@ -18,6 +18,17 @@ class Segment:
     def __repr__(self):
         return f'Segment({self.fp} -> {self.sp})'
 
+    def maximum(self):
+        if self.fp > self.sp:
+            return self.fp
+        else:
+            return self.sp
+
+    def minimum(self):
+        if self.fp < self.sp:
+            return self.fp
+        else:
+            return self.sp
 
 class Line:
     def __init__(self, a, b, c):
@@ -47,6 +58,13 @@ def intersection(seg1, seg2):
         if max(seg1.fp.x, seg1.sp.x) >= x >= min(seg1.fp.x, seg1.sp.x) and max(seg2.fp.x, seg2.sp.x) >= x >= min(seg2.fp.x, seg2.sp.x):  # cazul in care avem intersectie de segmente
             if max(seg1.fp.y, seg1.sp.y) >= y >= min(seg1.fp.y, seg1.sp.y) and max(seg2.fp.y, seg2.sp.y) >= y >= min(seg2.fp.y, seg2.sp.y):
                 return Vector2D(x, y)
+
+    if det == 0:
+        if seg1.slope() == seg2.slope():
+            if seg1.fp.x * line2.a + seg1.fp.y * line2.b == line2.c:
+                max_ = seg1.maximum() if seg1.maximum() <= seg2.maximum() else seg2.maximum()
+                min_ = seg1.minimum() if seg1.minimum() >= seg2.minimum() else seg2.minimum()
+                return [min_, max_]
     return None
 
 

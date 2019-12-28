@@ -21,6 +21,39 @@ class Vector2D:
     def to_tuple(self):
         return (self.x, self.y)
 
+    def __lt__(self, other):
+        if self.y < other.y:
+            return True
+        if self.y == other.y:
+            if self.x < other.x:
+                return True
+        return False
+
+    def __gt__(self, other):
+        if self.y > other.y:
+            return True
+        if self.y == other.y:
+            if self.x > other.x:
+                return True
+        return False
+
+    def __le__(self, other):
+        if self.y < other.y:
+            return True
+        if self.y == other.y:
+            if self.x <= other.x:
+                return True
+        return False
+
+    def __ge__(self, other):
+        if self.y > other.y:
+            return True
+        if self.y == other.y:
+            if self.x >= other.x:
+                return True
+        return False
+
+
     @staticmethod
     def read(file):
         line = next(file)
