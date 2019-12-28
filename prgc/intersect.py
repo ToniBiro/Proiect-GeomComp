@@ -8,11 +8,13 @@ class Segment:
 
     def slope(self):
         if self.sp.x - self.fp.x == 0:
-            return 0
+            return None
         return float((self.sp.y - self.fp.y) / (self.sp.x - self.fp.x))
 
     def to_line(self):
         slope = self.slope()
+        if slope == None:
+            return Line(1, 0, -self.fp.x)
         return Line(slope, -1, self.fp.y - slope * self.fp.x)
 
     def __repr__(self):
