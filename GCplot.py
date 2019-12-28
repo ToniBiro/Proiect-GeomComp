@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as pat  # Patches like pat.Polygon()
 from matplotlib.collections import PolyCollection  # Collections of patches
 
-def draw (firstFig,      secondFig,      interFig,
-          firstFigColor, secondFigColor, interFigColor, 
+def draw (firstFig, secondFig, interFigs,
+          firstFigColor = "blue", secondFigColor = "red", interFigColor = "yellow", 
           labels = ["first", "second", "inter", "combined"]):
     polyColors = [firstFigColor, secondFigColor, interFigColor]
-    figures    = [[firstFig], [secondFig], interFig]
+    figures    = [[firstFig], [secondFig], interFigs]
 
     ax  = plt.subplots(2, 2, True, True)[1]
     ax[1, 1].set_title(labels[3])
@@ -36,4 +36,19 @@ def draw (firstFig,      secondFig,      interFig,
     down, up    = plt.ylim()
     plt.xlim(min(left, down), max(right, up))
     plt.ylim(min(left, down), max(right, up))
+    plt.show()
+
+def drawPolygonLines (polygon):
+    
+    ax = plt.subplots()[1]
+    x = []
+    y = []
+
+    for dot in polygon:
+        x.append (dot[0])
+        y.append (dot[1])
+    x.append (polygon[0][0])
+    y.append (polygon[0][1])
+
+    ax.plot (x, y)
     plt.show()
