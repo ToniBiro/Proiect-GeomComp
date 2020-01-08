@@ -3,7 +3,7 @@ from prgc import Vector2D
 
 def test_format_vector():
     v = Vector2D(5.3, -2.1)
-    assert str(v) == f'(5.3, -2.1)'
+    assert str(v) == f'(5.300, -2.100)'
 
 
 def test_vector_add():

@@ -16,7 +16,42 @@ class Vector2D:
         return self.x == other.x and self.y == other.y
 
     def __repr__(self):
-        return f'({self.x}, {self.y})'
+        return f'({self.x:.3f}, {self.y:.3f})'
+
+    def to_tuple(self):
+        return (self.x, self.y)
+
+    def __lt__(self, other):
+        if self.y < other.y:
+            return True
+        if self.y == other.y:
+            if self.x < other.x:
+                return True
+        return False
+
+    def __gt__(self, other):
+        if self.y > other.y:
+            return True
+        if self.y == other.y:
+            if self.x > other.x:
+                return True
+        return False
+
+    def __le__(self, other):
+        if self.y < other.y:
+            return True
+        if self.y == other.y:
+            if self.x <= other.x:
+                return True
+        return False
+
+    def __ge__(self, other):
+        if self.y > other.y:
+            return True
+        if self.y == other.y:
+            if self.x >= other.x:
+                return True
+        return False
 
     @staticmethod
     def read(file):
@@ -26,3 +61,8 @@ class Vector2D:
 
 
 Vector2D.ORIGIN = Vector2D(0, 0)
+
+
+def right_turn(a, b, c):
+    "Checks if the point c is to the right of the a-b line."
+    return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) < 0
