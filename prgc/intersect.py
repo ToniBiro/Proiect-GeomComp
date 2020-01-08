@@ -32,6 +32,7 @@ class Segment:
         else:
             return self.sp
 
+
 class Line:
     def __init__(self, a, b, c):
         self.a = a
@@ -57,7 +58,8 @@ def intersection(seg1, seg2):
         x = ((-line1.c) * line2.b - ((-line2.c) * line1.b)) / det
         y = (line1.a * (-line2.c) - (line2.a * (-line1.c))) / det
 
-        if max(seg1.fp.x, seg1.sp.x) >= x >= min(seg1.fp.x, seg1.sp.x) and max(seg2.fp.x, seg2.sp.x) >= x >= min(seg2.fp.x, seg2.sp.x):  # cazul in care avem intersectie de segmente
+        # cazul in care avem intersectie de segmente
+        if max(seg1.fp.x, seg1.sp.x) >= x >= min(seg1.fp.x, seg1.sp.x) and max(seg2.fp.x, seg2.sp.x) >= x >= min(seg2.fp.x, seg2.sp.x):
             if max(seg1.fp.y, seg1.sp.y) >= y >= min(seg1.fp.y, seg1.sp.y) and max(seg2.fp.y, seg2.sp.y) >= y >= min(seg2.fp.y, seg2.sp.y):
                 return Vector2D(x, y)
 
@@ -68,11 +70,3 @@ def intersection(seg1, seg2):
                 min_ = seg1.minimum() if seg1.minimum() >= seg2.minimum() else seg2.minimum()
                 return [min_, max_]
     return None
-
-
-def intersect_segments(segments):
-    for i, segment1 in enumerate(segments):
-        for j in range(i+1, len(segments)):
-            rez = intersection(segment1, segments[j])
-            if rez: # it returns the coordinates of the intersections
-                yield rez, segment1, segments[j]

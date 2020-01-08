@@ -95,6 +95,7 @@ class Face:
             yield current
             current = current.next
 
+
 class DCEL:
     def __init__(self):
         self.vertices = []
@@ -145,9 +146,11 @@ class DCEL:
 
         new_direct_edge = self.create_edge(vertex, b)
         new_direct_edge.link(edge.next)
+        new_direct_edge.face = edge.face
 
         new_reverse_edge = self.create_edge(vertex, a)
         new_reverse_edge.link(twin.next)
+        new_reverse_edge.face = edge.twin.face
 
         edge.link(new_direct_edge)
         twin.link(new_reverse_edge)
@@ -191,11 +194,9 @@ class DCEL:
         inner_edges.append(inner)
         outer_edges.append(outer)
 
-
         for i in range(num_vertices - 1):
             inner_edges[i].link(inner_edges[i + 1])
         inner_edges[-1].link(inner_edges[0])
-
 
         for i in range(num_vertices - 1):
             outer_edges[i + 1].link(outer_edges[i])

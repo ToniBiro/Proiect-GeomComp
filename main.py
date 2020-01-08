@@ -1,44 +1,129 @@
-from prgc import DCEL, Vector2D, draw, intersect_segments
-from prgc.intersect import Segment, intersection
+from prgc import DCEL, Vector2D, Segment, draw, intersection
+from prgc.plot import drawPolygonLines
+
+
+input_path = "inputs/point_on_segment.txt"
+
 
 dcel = DCEL()
 
-with open('input.txt') as fin:
-    a = dcel.read_polygon_from_file(fin)
-    b = dcel.read_polygon_from_file(fin)
+with open(input_path) as fin:
+    poly_a = dcel.read_polygon_from_file(fin)
+    poly_b = dcel.read_polygon_from_file(fin)
+
 
 def face_to_segments(face):
     return [edge.to_segment() for edge in face]
 
-segments_a = face_to_segments(a)
-segments_b = face_to_segments(b)
 
-print(segments_a + segments_b)
+def edges_to_figure(edges):
+    figure = []
 
-for intersection, seg1, seg2 in intersect_segments(segments_a + segments_b):
-    if isinstance(intersection, Vector2D):
-        # Skip self-intersections
-        # TODO: modify intersection code to avoid them
-        if seg1.edge.face == seg2.edge.face:
-            continue
+    for edge in edges:
+        figure.append((edge.start.x, edge.start.y))
 
-        ipoint = dcel.create_vertex(intersection)
-        print(ipoint)
+    return figure
 
-        print(seg1.edge)
-        dcel.split(seg1.edge, ipoint)
-        print(seg1.edge, seg1.edge.next)
-        dcel.split(seg2.edge, ipoint)
-    else:
-        raise NotImplementedError
 
-print(dcel)
+def right_turn(a, b, c):
+    return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) < 0
 
-figures = []
-for face in dcel.faces:
-    for edge in face:
-        figures.append([(edge.start.x, edge.start.y), (edge.target.x, edge.target.y)])
-        if edge.face != face:
-            print(edge)
 
-draw([], [], figures, 'red', 'blue', 'yellow')
+figure_a = edges_to_figure(iter(poly_a))
+figure_b = edges_to_figure(iter(poly_b))
+figures_isect = []
+
+ok = True
+while ok:
+    ok = False
+    for current_edge in filter(lambda e: e.face == poly_a, dcel.edges):
+        for other_edge in filter(lambda e: e.face == poly_b, dcel.edges):
+            # Skip self-intersections at polygon vertices
+            if ((current_edge.target == other_edge.start) or
+                (current_edge.target == other_edge.target) or
+                (current_edge.start == other_edge.start) or
+                    (current_edge.start == other_edge.target)):
+                continue
+
+            seg1 = Segment(current_edge.start, current_edge.target)
+            seg2 = Segment(other_edge.start, other_edge.target)
+            result = intersection(seg1, seg2)
+
+            if result:
+                if isinstance(result, Vector2D):
+                    if ((result == current_edge.start) or (result == current_edge.target)
+                            or (result == other_edge.start) or (result == other_edge.target)):
+                        figures_isect.append([result.to_tuple()])
+                        continue
+
+                    ipoint = dcel.create_vertex(result)
+
+                    edge1 = current_edge
+                    edge2 = other_edge
+
+                    dcel.split(edge1, ipoint)
+                    dcel.split(edge2, ipoint)
+
+                    a = edge1
+                    b = edge1.next
+                    c = edge2
+                    d = edge2.next
+
+                    a_twin = a.twin
+                    b_twin = b.twin
+                    c_twin = c.twin
+                    d_twin = d.twin
+
+                    if right_turn(a.start, a.target, c_twin.target):
+                        a.link(d)
+                        d_twin.link(b)
+                        b_twin.link(c_twin)
+                        c.link(a_twin)
+
+                        a.intersection = True
+                        b.intersection = False
+                        c.intersection = False
+                        d.intersection = True
+                    else:
+                        a.link(c_twin)
+                        c.link(b)
+                        b_twin.link(d)
+                        d_twin.link(a_twin)
+
+                        a.intersection = False
+                        b.intersection = True
+                        c.intersection = True
+                        d.intersection = False
+
+                    ok = True
+
+                    break
+                else:
+                    raise NotImplementedError
+
+
+loops = []
+visited = set()
+
+for edge in dcel.edges:
+    if edge in visited:
+        continue
+
+    loop = []
+    while edge not in visited:
+        visited.add(edge)
+        loop.append(edge)
+
+        edge = edge.next
+
+    for edge in loop:
+        if hasattr(edge, 'intersection'):
+            if edge.intersection:
+                loops.append(loop)
+                break
+
+for loop in loops:
+    figure = edges_to_figure(loop)
+    figures_isect.append(figure)
+
+draw(figure_a, figure_b, figures_isect)

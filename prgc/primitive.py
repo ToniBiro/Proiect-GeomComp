@@ -16,7 +16,7 @@ class Vector2D:
         return self.x == other.x and self.y == other.y
 
     def __repr__(self):
-        return f'({self.x}, {self.y})'
+        return f'({self.x:.3f}, {self.y:.3f})'
 
     def to_tuple(self):
         return (self.x, self.y)
@@ -52,7 +52,6 @@ class Vector2D:
             if self.x >= other.x:
                 return True
         return False
-
 
     @staticmethod
     def read(file):

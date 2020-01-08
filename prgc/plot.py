@@ -19,8 +19,7 @@ def draw(firstFig, secondFig, interFigs,
         polyColor = polyColors[polyNo]
         ax[polyNo // 2, polyNo % 2].set_title(labels[polyNo])
         for polygon in polygons:
-            if len(polygon) == 0:
-                continue
+            assert (len(polygon) > 0), "Not a polygon"
             if len(polygon) == 1:
                 ax[1, 1].plot([polygon[0][0]], [polygon[0][0]], 'yo')
                 ax[polyNo // 2, polyNo %
@@ -46,9 +45,7 @@ def draw(firstFig, secondFig, interFigs,
     plt.show()
 
 
-def drawPolygonLines(polygon):
-
-    ax = plt.subplots()[1]
+def drawPolygonLines(ax, polygon):
     x = []
     y = []
 
@@ -59,4 +56,3 @@ def drawPolygonLines(polygon):
     y.append(polygon[0][1])
 
     ax.plot(x, y)
-    plt.show()
