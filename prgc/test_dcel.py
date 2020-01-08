@@ -1,3 +1,5 @@
+import pytest
+
 from . import DCEL, Vector2D
 
 
@@ -57,6 +59,7 @@ def test_create_dcel():
     assert len(dcel.faces) == 2
 
 
+@pytest.mark.skip(reason="only prints DCEL for manual inspection")
 def test_print_dcel():
     dcel, triangle = create_triangle_and_segment()
 
