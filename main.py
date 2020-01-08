@@ -1,8 +1,12 @@
-from prgc import DCEL, Vector2D, Segment, draw, intersection
-from prgc.plot import drawPolygonLines
+import argparse
 
+from prgc import DCEL, Vector2D, Segment, draw, intersection, right_turn
 
-input_path = "inputs/point_on_segment.txt"
+parser = argparse.ArgumentParser()
+parser.add_argument("path", help="input file path")
+args = parser.parse_args()
+
+input_path = args.path
 
 
 dcel = DCEL()
