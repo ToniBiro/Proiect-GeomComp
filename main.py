@@ -25,10 +25,6 @@ def edges_to_figure(edges):
     return figure
 
 
-def right_turn(a, b, c):
-    return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) < 0
-
-
 figure_a = edges_to_figure(iter(poly_a))
 figure_b = edges_to_figure(iter(poly_b))
 figures_isect = []

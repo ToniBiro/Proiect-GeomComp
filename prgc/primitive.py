@@ -61,3 +61,8 @@ class Vector2D:
 
 
 Vector2D.ORIGIN = Vector2D(0, 0)
+
+
+def right_turn(a, b, c):
+    "Checks if the point c is to the right of the a-b line."
+    return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) < 0
