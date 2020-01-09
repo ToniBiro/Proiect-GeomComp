@@ -98,6 +98,23 @@ while ok:
                     ok = True
 
                     break
+                elif isinstance(result, list):
+                    a, b = result
+                    print(result)
+                    a.intersection = True
+                    b.intersection = True
+
+                    seg1.fp.intersection = True
+                    seg1.sp.intersection = True
+                    seg2.fp.intersection = True
+                    seg2.sp.intersection = True
+
+                    figures_isect.append([a.point.to_tuple(), b.point.to_tuple()])
+                    print(figures_isect[-1])
+
+                    ok = False
+
+                    break
                 else:
                     raise NotImplementedError
 

@@ -64,9 +64,12 @@ def intersection(seg1, seg2):
                 return Vector2D(x, y)
 
     if det == 0:
+        print(seg1, seg2, seg1.slope(), seg2.slope())
         if seg1.slope() == seg2.slope():
-            if seg1.fp.x * line2.a + seg1.fp.y * line2.b == line2.c:
-                max_ = seg1.maximum() if seg1.maximum() <= seg2.maximum() else seg2.maximum()
-                min_ = seg1.minimum() if seg1.minimum() >= seg2.minimum() else seg2.minimum()
-                return [min_, max_]
+            if seg1.fp.x * line2.a + seg1.fp.y * line2.b == -line2.c:
+                max_ = min(seg1.maximum(), seg2.maximum())
+                min_ = max(seg1.minimum(), seg2.minimum())
+                print(max_, min_)
+                if max_ > min_:
+                    return [min_, max_]
     return None

@@ -22,6 +22,18 @@ class Vertex:
     def __repr__(self):
         return f'Vertex{self.point}'
 
+    def __lt__(self, other):
+        return self.point < other.point
+
+    def __le__(self, other):
+        return self.point <= other.point
+
+    def __gt__(self, other):
+        return self.point > other.point
+
+    def __ge__(self, other):
+        return self.point >= other.point
+
     @property
     def x(self):
         return self.point.x
