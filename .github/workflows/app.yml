@@ -1,0 +1,19 @@
+name: Run with Docker
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    name: Build and run tests
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@2
+      - name: Build the Docker images
+        run: docker-compose build
+      - name: Start the services and then shut them down
+        run: |
+          docker-compose up -d
+          docker-compose down
+      - name: Run the automated backend tests
+        run: docker run --rm proiect-geomcomp_backend pytest
