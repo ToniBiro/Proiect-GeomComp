@@ -1,0 +1,27 @@
+version: "3"
+services:
+  # Back end scris în Python cu Flask, oferă operații geometrice pe poligoane
+  backend:
+    build: ./backend
+    volumes:
+      # Pentru a permite editarea live a codului,
+      # trebuie ca acesta să fie accesibil din container.
+      - ./backend:/code
+    ports:
+      # Expun port-ul server-ului pe mașina locală
+      - "5000:5000"
+    environment:
+      # În modul development, Flask activează debugger-ul și reîncarcă automat
+      # schimbările din cod.
+      FLASK_ENV: development
+
+  # Front end este un site static, cu HTML5/CSS/JavaScript.
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/www
+    ports:
+      # Expune server-ul pe port-ul obișnuit pentru http
+      - "80:8000"
+    links:
+      - backend

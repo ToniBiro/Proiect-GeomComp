@@ -2,10 +2,20 @@
 
 ## Rulare
 
-Programul principal cu interfață grafică poate fi pornit rulând `main.py`:
+Atât server-ul cât și front end-ul rulează cu [Docker](https://www.docker.com/).
+Presupunând că Docker funcționează și că [`docker-compose`](https://docs.docker.com/compose/) este instalat,
+puteți porni aplicația prin:
 
+```sh
+$ docker-compose up
 ```
-python3 main.py
+
+Puteți opri aplicația rulând `Ctrl + C`.
+
+Pentru a elibera resursele utilizate de containere la final puteți rula:
+
+```sh
+$ docker-compose down
 ```
 
 ## Testare
@@ -15,5 +25,5 @@ Testele automate pentru proiect pot fi rulate cu [pytest](https://docs.pytest.or
 După instalare, este suficient să rulați:
 
 ```sh
-pytest
+$ docker run --rm proiect-geomcomp_backend pytest
 ```
