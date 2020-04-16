@@ -1,8 +1,20 @@
-FROM python:3.7-alpine
+# pull official base image
+FROM node:13.12.0-alpine
 
-WORKDIR /www
+# set working directory
+WORKDIR /app
 
-COPY . .
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Use the built-in Python static server
-CMD ["python", "-m", "http.server", "8000"]
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
+
+# add app
+COPY . ./
+
+# start app
+CMD ["npm", "start"]
