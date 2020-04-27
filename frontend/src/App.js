@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Stage, Layer, Line, Circle } from "react-konva";
+
+import { Provider, useDispatch, useSelector, useStore } from "react-redux";
+import { addPolygon, setVertexPosition } from "./store";
 
 export default function App() {
   return (
@@ -10,81 +13,37 @@ export default function App() {
   );
 }
 
-const initialPolygons = [
-  {
-    id: 0,
-    vertices: [
-      {
-        x: 23,
-        y: 20,
-      },
-      {
-        x: 23,
-        y: 160,
-      },
-      {
-        x: 70,
-        y: 93,
-      },
-      {
-        x: 150,
-        y: 109,
-      },
-    ],
-  },
-];
-
 function PolygonDisplay() {
-  const [polygonData, setPolygonData] = useState(initialPolygons);
-
-  console.log("redrawing polygon display");
-
-  const updatePosition = (polygonIndex, vertexIndex, x, y) => {
-    const dataCopy = JSON.parse(JSON.stringify(polygonData));
-    dataCopy[polygonIndex].vertices[vertexIndex] = { x, y };
-    setPolygonData(dataCopy);
-  };
+  const store = useStore();
+  const dispatch = useDispatch();
+  const polygons = useSelector((state) => state);
 
   return (
     <>
       {/* draw the polygons on a canvas */}
       <Stage width={360} height={360}>
-        <Layer>
-          {polygonData.map((polygon) => (
-            <Polygon
-              key={polygon.id}
-              points={polygon.vertices.flatMap(({ x, y }) => [x, y])}
-            />
-          ))}
-        </Layer>
-        <Layer>
-          {polygonData.flatMap((polygon, polygonIndex) =>
-            polygon.vertices.map(({ x, y }, vertexIndex) => (
-              <Vertex
-                key={`${polygon.id}_${vertexIndex}`}
-                x={x}
-                y={y}
-                onDragEnd={({ target }) =>
-                  updatePosition(
-                    polygonIndex,
-                    vertexIndex,
-                    target.x(),
-                    target.y()
-                  )
-                }
-              />
-            ))
-          )}
-        </Layer>
+        <Provider store={store}>
+          <Layer>
+            {polygons.map((_, index) => (
+              <Polygon key={index} index={index} />
+            ))}
+          </Layer>
+        </Provider>
       </Stage>
+      {/* user controls */}
+      <div>
+        <button type="button" onClick={() => dispatch(addPolygon())}>
+          Add new polygon
+        </button>
+      </div>
       {/* textual representation of the polygons */}
       <ul>
-        {polygonData.map((polygon, index) => (
-          <li>
+        {polygons.map((polygon, index) => (
+          <li key={index}>
             Polygon #{index}
             <ol>
-              {polygon.vertices.map(({ x, y }) => (
-                <li>
+              {polygon.vertices.map(({ x, y }, index) => (
+                <li key={index}>
                   ({x}, {y})
                 </li>
               ))}
@@ -96,8 +55,41 @@ function PolygonDisplay() {
   );
 }
 
+function Polygon({ index }) {
+  const dispatch = useDispatch();
+  const polygon = useSelector((state) => state[index]);
+
+  const points = polygon.vertices.flatMap(({ x, y }) => [x, y]);
+
+  const updatePosition = (vertexIndex, x, y) => {
+    dispatch(setVertexPosition(index, vertexIndex, x, y));
+  };
+
+  // TODO: wrap in a Konva group
+  return (
+    <>
+      <Line
+        points={points}
+        fill="#00D2FF66"
+        stroke="black"
+        strokeWidth={3}
+        closed={true}
+      />
+      {polygon.vertices.map(({ x, y }, vertexIndex) => (
+        <Vertex
+          key={vertexIndex}
+          x={x}
+          y={y}
+          onDragEnd={({ target }) =>
+            updatePosition(vertexIndex, target.x(), target.y())
+          }
+        />
+      ))}
+    </>
+  );
+}
+
 function Vertex({ x, y, onDragEnd }) {
-  console.log("drawing vertex at " + x + " " + y);
   return (
     <Circle
       x={x}
@@ -106,18 +98,6 @@ function Vertex({ x, y, onDragEnd }) {
       fill="red"
       draggable={true}
       onDragEnd={onDragEnd}
-    />
-  );
-}
-
-function Polygon({ points }) {
-  return (
-    <Line
-      points={points}
-      fill="#00D2FF66"
-      stroke="black"
-      strokeWidth={3}
-      closed={true}
     />
   );
 }
