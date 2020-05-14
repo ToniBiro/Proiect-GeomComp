@@ -1,8 +1,10 @@
 import React from "react";
-import { Stage, Layer, Line, Circle } from "react-konva";
+import { Stage, Layer } from "react-konva";
 
 import { Provider, useDispatch, useSelector, useStore } from "react-redux";
-import { addPolygon, setVertexPosition } from "./store";
+import { addPolygon } from "./actions";
+
+import Polygon from "./components/Polygon";
 
 export default function App() {
   return (
@@ -52,52 +54,5 @@ function PolygonDisplay() {
         ))}
       </ul>
     </>
-  );
-}
-
-function Polygon({ index }) {
-  const dispatch = useDispatch();
-  const polygon = useSelector((state) => state[index]);
-
-  const points = polygon.vertices.flatMap(({ x, y }) => [x, y]);
-
-  const updatePosition = (vertexIndex, x, y) => {
-    dispatch(setVertexPosition(index, vertexIndex, x, y));
-  };
-
-  // TODO: wrap in a Konva group
-  return (
-    <>
-      <Line
-        points={points}
-        fill="#00D2FF66"
-        stroke="black"
-        strokeWidth={3}
-        closed={true}
-      />
-      {polygon.vertices.map(({ x, y }, vertexIndex) => (
-        <Vertex
-          key={vertexIndex}
-          x={x}
-          y={y}
-          onDragEnd={({ target }) =>
-            updatePosition(vertexIndex, target.x(), target.y())
-          }
-        />
-      ))}
-    </>
-  );
-}
-
-function Vertex({ x, y, onDragEnd }) {
-  return (
-    <Circle
-      x={x}
-      y={y}
-      radius={10}
-      fill="red"
-      draggable={true}
-      onDragEnd={onDragEnd}
-    />
   );
 }
