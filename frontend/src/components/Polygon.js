@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Line } from "react-konva";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +7,9 @@ import { setVertexPosition } from "../actions";
 
 import Vertex from "./Vertex";
 
+/**
+ * Renders a filled polygonal contour and its vertices.
+ */
 export default function Polygon({ index }) {
   const dispatch = useDispatch();
   const polygon = useSelector((state) => state[index]);
@@ -38,3 +42,7 @@ export default function Polygon({ index }) {
     </>
   );
 }
+
+Polygon.propTypes = {
+  index: PropTypes.number,
+};
