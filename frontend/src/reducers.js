@@ -1,6 +1,21 @@
-import { ADD_POLYGON, SET_VERTEX_POSITION } from "./actions";
+import { combineReducers } from "redux";
 
-const initialState = [
+import {
+  ADD_POLYGON,
+  SET_VERTEX_POSITION,
+  SET_CURRENT_POLYGON,
+} from "./actions";
+
+const currentPolygonReducer = (state = 0, action) => {
+  switch (action.type) {
+    case SET_CURRENT_POLYGON:
+      return action.polygonIndex;
+    default:
+      return state;
+  }
+};
+
+const initialPolygonList = [
   {
     vertices: [
       {
@@ -23,7 +38,7 @@ const initialState = [
   },
 ];
 
-export default function rootReducer(state = initialState, action) {
+const polygonListReducer = (state = initialPolygonList, action) => {
   switch (action.type) {
     case ADD_POLYGON:
       return [
@@ -35,7 +50,7 @@ export default function rootReducer(state = initialState, action) {
     default:
       return state.map((polygon) => polygonReducer(polygon, action));
   }
-}
+};
 
 function polygonReducer(state, action) {
   switch (action.type) {
@@ -50,3 +65,10 @@ function polygonReducer(state, action) {
       return state;
   }
 }
+
+const rootReducer = combineReducers({
+  currentPolygon: currentPolygonReducer,
+  polygons: polygonListReducer,
+});
+
+export default rootReducer;

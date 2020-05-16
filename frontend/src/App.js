@@ -2,7 +2,7 @@ import React from "react";
 import { Stage, Layer } from "react-konva";
 
 import { Provider, useDispatch, useSelector, useStore } from "react-redux";
-import { addPolygon } from "./actions";
+import { addPolygon, setCurrentPolygon } from "./actions";
 
 import Polygon from "./components/Polygon";
 
@@ -18,7 +18,8 @@ export default function App() {
 function PolygonDisplay() {
   const store = useStore();
   const dispatch = useDispatch();
-  const polygons = useSelector((state) => state);
+  const polygons = useSelector((state) => state.polygons);
+  const currentPolygon = useSelector((state) => state.currentPolygon);
 
   return (
     <>
@@ -43,6 +44,14 @@ function PolygonDisplay() {
         {polygons.map((polygon, index) => (
           <li key={index}>
             Polygon #{index}
+            {index !== currentPolygon ? (
+              <button
+                onClick={() => dispatch(setCurrentPolygon(index))}
+                type="button"
+              >
+                Make current
+              </button>
+            ) : null}
             <ol>
               {polygon.vertices.map(({ x, y }, index) => (
                 <li key={index}>
