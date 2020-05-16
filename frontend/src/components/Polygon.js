@@ -12,7 +12,7 @@ import Vertex from "./Vertex";
  */
 export default function Polygon({ index }) {
   const dispatch = useDispatch();
-  const polygon = useSelector((state) => state[index]);
+  const polygon = useSelector((state) => state.polygons[index]);
 
   const points = polygon.vertices.flatMap(({ x, y }) => [x, y]);
 
