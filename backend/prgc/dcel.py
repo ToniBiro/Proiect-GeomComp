@@ -1,5 +1,6 @@
 from io import StringIO
-from . import Vector2D, Segment
+from .primitive import Vector2D
+from .intersect import Segment
 
 
 class Vertex:
@@ -115,12 +116,14 @@ class DCEL:
         self.faces = []
 
     def create_vertex(self, point):
+        "Adds a new vertex, initially not connected to anything."
         vertex = Vertex(point)
         self.vertices.append(vertex)
 
         return vertex
 
     def create_edge(self, start, end):
+        "Adds a new edge, connecting the two given vertices."
         assert start in self.vertices
         assert end in self.vertices
 
@@ -133,6 +136,7 @@ class DCEL:
         return edge
 
     def create_face(self, edge):
+        "Adds a new face, the one to the left of the edge."
         assert edge in self.edges
 
         face = Face(edge)
@@ -179,12 +183,16 @@ class DCEL:
 
         raise NotImplementedError
 
-    def read_polygon_from_file(self, file):
-        num_vertices = int(next(file))
+    def create_face_from_points(self, points):
+        """Creates a new face from a set of points.
+
+        The winding is done counter-clockwise.
+        """
         vertices = [
-            self.create_vertex(Vector2D.read(file))
-            for _ in range(num_vertices)
+            self.create_vertex(point)
+            for point in points
         ]
+        num_vertices = len(vertices)
 
         inner_edges = []
         outer_edges = []

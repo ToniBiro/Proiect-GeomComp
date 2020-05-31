@@ -1,7 +1,9 @@
-from prgc import Vector2D
+from .primitive import Vector2D, right_turn
 
 
 class Segment:
+    "Line segment, identified by its two endpoints"
+
     def __init__(self, fp, sp):
         self.fp = fp
         self.sp = sp
@@ -34,6 +36,8 @@ class Segment:
 
 
 class Line:
+    "Straight line in the plane"
+
     def __init__(self, a, b, c):
         self.a = a
         self.b = b
@@ -44,11 +48,19 @@ def get_determinant(line1, line2):
     return line1.a * line2.b - line2.a * line1.b
 
 
-def intersection(seg1, seg2):
-    """
-    :param seg1: the first segment
-    :param seg2: the second segment
-    :return: None if they don't intersect and the point of intersection if they do
+def intersect_segments(seg1, seg2):
+    """Computes the intersection of two line segments.
+
+    Parameters
+    ----------
+    seg1: Segment
+        The first segment
+    seg2: Segment
+        The second segment
+
+    Returns
+    -------
+    `None` if they don't intersect or the point of intersection if they do
     """
     line1, line2 = seg1.to_line(), seg2.to_line()
     det = get_determinant(line1, line2)
@@ -73,3 +85,117 @@ def intersection(seg1, seg2):
                 if max_ > min_:
                     return [min_, max_]
     return None
+
+
+def intersect_polygons(dcel, poly_a, poly_b):
+    "Computes the intersection of two polygons stored in a common DCEL"
+
+    figures_isect = []
+
+    ok = True
+    while ok:
+        ok = False
+        for current_edge in filter(lambda e: e.face == poly_a, dcel.edges):
+            for other_edge in filter(lambda e: e.face == poly_b, dcel.edges):
+                # Skip self-intersections at polygon vertices
+                if ((current_edge.target == other_edge.start) or
+                    (current_edge.target == other_edge.target) or
+                    (current_edge.start == other_edge.start) or
+                        (current_edge.start == other_edge.target)):
+                    continue
+
+                seg1 = Segment(current_edge.start, current_edge.target)
+                seg2 = Segment(other_edge.start, other_edge.target)
+                result = intersect_segments(seg1, seg2)
+
+                if result:
+                    if isinstance(result, Vector2D):
+                        if ((result == current_edge.start) or (result == current_edge.target)
+                                or (result == other_edge.start) or (result == other_edge.target)):
+                            figures_isect.append([result.to_tuple()])
+                            continue
+
+                        ipoint = dcel.create_vertex(result)
+
+                        edge1 = current_edge
+                        edge2 = other_edge
+
+                        dcel.split(edge1, ipoint)
+                        dcel.split(edge2, ipoint)
+
+                        a = edge1
+                        b = edge1.next
+                        c = edge2
+                        d = edge2.next
+
+                        a_twin = a.twin
+                        b_twin = b.twin
+                        c_twin = c.twin
+                        d_twin = d.twin
+
+                        if right_turn(a.start, a.target, c_twin.target):
+                            a.link(d)
+                            d_twin.link(b)
+                            b_twin.link(c_twin)
+                            c.link(a_twin)
+
+                            a.intersection = True
+                            b.intersection = False
+                            c.intersection = False
+                            d.intersection = True
+                        else:
+                            a.link(c_twin)
+                            c.link(b)
+                            b_twin.link(d)
+                            d_twin.link(a_twin)
+
+                            a.intersection = False
+                            b.intersection = True
+                            c.intersection = True
+                            d.intersection = False
+
+                        ok = True
+
+                        break
+                    if isinstance(result, list):
+                        a, b = result
+                        print(result)
+                        a.intersection = True
+                        b.intersection = True
+
+                        seg1.fp.intersection = True
+                        seg1.sp.intersection = True
+                        seg2.fp.intersection = True
+                        seg2.sp.intersection = True
+
+                        figures_isect.append(
+                            [a.point.to_tuple(), b.point.to_tuple()])
+                        print(figures_isect[-1])
+
+                        ok = False
+
+                        break
+
+                    raise NotImplementedError
+
+    loops = []
+    visited = set()
+
+    for edge in dcel.edges:
+        if edge in visited:
+            continue
+
+        loop = []
+        while edge not in visited:
+            visited.add(edge)
+            loop.append(edge)
+
+            edge = edge.next
+
+        for loop_edge in loop:
+            if hasattr(loop_edge, 'intersection'):
+                if loop_edge.intersection:
+                    loops.append(loop)
+                    break
+
+    return loops
