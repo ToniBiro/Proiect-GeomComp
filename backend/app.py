@@ -4,11 +4,10 @@ from flask import Flask, jsonify
 from flask import request
 # from flask_cors import CORS
 
-import prgc
-from prgc.package.dcel import DCEL
-from prgc.package.intersect import intersect_polygons
-from prgc.package.primitive import Vector2D
-from prgc.package.primitive import compute_area, compute_perimeter, define_polygon_type
+from prgc.dcel import DCEL
+from prgc.intersect import intersect_polygons
+from prgc.primitive import Vector2D
+from prgc.primitive import compute_area, compute_perimeter, define_polygon_type
 
 
 app = Flask(__name__)
