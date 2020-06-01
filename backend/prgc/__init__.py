@@ -1,4 +1,4 @@
-from package.primitive import Vector2D, right_turn
-from package.dcel import DCEL
-from package.intersect import Segment, intersect_segments, intersect_polygons
+from .primitive import Vector2D, right_turn
+from .dcel import DCEL
+from .intersect import Segment, intersect_segments, intersect_polygons
 import math

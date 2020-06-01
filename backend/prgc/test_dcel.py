@@ -1,6 +1,7 @@
 import pytest
 
-from . import DCEL, Vector2D
+from .primitive import Vector2D
+from .dcel import DCEL
 
 
 def create_triangle_and_segment():
