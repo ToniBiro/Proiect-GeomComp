@@ -1,6 +1,7 @@
-from prgc import Segment, Vector2D
-from prgc import DCEL
-from prgc import intersect_segments, intersect_polygons
+from package.primitive import Vector2D
+from package.intersect import Segment
+from package.dcel import DCEL
+from package.intersect import intersect_segments, intersect_polygons
 
 
 def assert_edge_from_to(edge, start, target):
