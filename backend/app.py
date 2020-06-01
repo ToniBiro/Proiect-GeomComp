@@ -8,6 +8,7 @@ import prgc
 from prgc.package.dcel import DCEL
 from prgc.package.intersect import intersect_polygons
 from prgc.package.primitive import Vector2D
+from prgc.package.primitive import compute_area, compute_perimeter, define_polygon_type
 
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ def hello_world():
 
     return "<h1>The initial emplty graph.</h1>"
 
-@app.route('/test_intersect', methods=['POST'])
+@app.route('/get_intersection', methods=['POST'])
 def compute_intersection():
 	"""
 	Computes the resulting polygon from the intersection of 2 polygons
@@ -69,10 +70,8 @@ def compute_intersection():
 	insect = intersect_polygons(dcel, rect1, rect2)
 
 	# test prints - remove before deployment
-    print(rect1_aux)
+	print(rect1_aux)
 	print(len(insect))
-	print(f'ISECT 0  {insect[0]}')
-	print(f'ISECT 1 {insect[1]}')
     
     # Extract the result
 	json_resp = dict()
@@ -88,6 +87,38 @@ def compute_intersection():
 	print(json_resp)
     
 	return jsonify(json_resp)
+
+@app.route('/get_polygon_info', methods=['POST'])
+def get_polygon_info():
+    """
+    Returns information about a given polygon as json
+    Input: A list of points
+    e.g. { 'polygon' : [(0, 0), (1, 0), (1, 1), (0, 1)] }
+
+    Returns: A dictionary wtih area, perimeter and polygon type (concave, convex)
+    e.g. polygon_info = {
+    				'area' : 1,
+    				'perimeter' : 4,
+    				'type' : 'concave'
+    		}
+    """
+    polygon_info = {
+    				'area' : None,
+    				'perimeter' : None,
+    				'type' : None
+    		}
+
+    polygon = []
+
+    # read json data from input
+    polygon = request.get_json()['polygon']
+
+    # compute the information
+    polygon_info['area'] = compute_area(polygon)
+    polygon_info['perimeter'] = compute_perimeter(polygon)
+    polygon_info['type'] = define_polygon_type(polygon)
+
+    return jsonify(polygon_info)
 
 
 if __name__ == '__main__':
