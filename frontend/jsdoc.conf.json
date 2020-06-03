@@ -1,0 +1,15 @@
+{
+  "source": {
+    "include": ["README.md", "src"]
+  },
+  "plugins": ["better-docs/component"],
+  "templates": {
+    "better-docs": {
+      "name": "React components"
+    }
+  },
+  "opts": {
+    "destination": "docs",
+    "recurse": true
+  }
+}

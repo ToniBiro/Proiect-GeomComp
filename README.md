@@ -2,7 +2,7 @@
 
 ## Rulare
 
-Atât server-ul cât și front end-ul rulează cu [Docker](https://www.docker.com/).
+Atât server-ul cât și front end-ul rulează cu `Docker <https://www.docker.com/>`.
 Presupunând că Docker funcționează și că [`docker-compose`](https://docs.docker.com/compose/) este instalat,
 puteți porni aplicația prin:
 
@@ -27,3 +27,13 @@ După instalare, este suficient să rulați:
 ```sh
 $ docker run --rm proiect-geomcomp_backend pytest
 ```
+
+## Documentație
+
+### Back end
+
+Documentația poate fi generată folosind [pdoc](https://pdoc3.github.io/pdoc/).
+
+### Front end
+
+Documentația poate fi generată folosind [jsdoc](https://jsdoc.app/).

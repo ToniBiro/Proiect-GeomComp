@@ -6,7 +6,14 @@ import { addPolygon, setCurrentPolygon } from "./actions";
 
 import Polygon from "./components/Polygon";
 
-export default function App() {
+export default App;
+
+/**
+ * Root application component.
+ *
+ * @component
+ */
+function App() {
   return (
     <>
       <h1>Intersecție de poligoane</h1>
