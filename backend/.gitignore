@@ -1,6 +1,9 @@
 # gitignore template for Python projects taken from
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 
+# generated documentation
+docs/
+
 # PyCharm settings
 /.idea/
 
