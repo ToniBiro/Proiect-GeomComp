@@ -2,8 +2,9 @@ import { combineReducers } from "redux";
 
 import {
   ADD_POLYGON,
-  SET_VERTEX_POSITION,
   SET_CURRENT_POLYGON,
+  ADD_VERTEX,
+  SET_VERTEX_POSITION,
 } from "./actions";
 
 const currentPolygonReducer = (state = 0, action) => {
@@ -17,6 +18,7 @@ const currentPolygonReducer = (state = 0, action) => {
 
 const initialPolygonList = [
   {
+    index: 0,
     vertices: [
       {
         x: 23,
@@ -44,6 +46,7 @@ const polygonListReducer = (state = initialPolygonList, action) => {
       return [
         ...state,
         {
+          index: state.length,
           vertices: [],
         },
       ];
@@ -53,7 +56,15 @@ const polygonListReducer = (state = initialPolygonList, action) => {
 };
 
 function polygonReducer(state, action) {
+  if (state.index !== action.polygonIndex) {
+    return state;
+  }
   switch (action.type) {
+    case ADD_VERTEX:
+      return {
+        ...state,
+        vertices: [...state.vertices, action.position],
+      };
     case SET_VERTEX_POSITION:
       return {
         ...state,
