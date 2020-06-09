@@ -4,6 +4,7 @@
 
 export const ADD_POLYGON = "ADD_POLYGON";
 export const SET_CURRENT_POLYGON = "SET_CURRENT_POLYGON";
+export const ADD_VERTEX = "ADD_VERTEX";
 export const SET_VERTEX_POSITION = "SET_VERTEX_POSITION";
 
 /**
@@ -16,6 +17,10 @@ export function addPolygon() {
 
 export function setCurrentPolygon(polygonIndex) {
   return { type: SET_CURRENT_POLYGON, polygonIndex };
+}
+
+export function addVertex(polygonIndex, position) {
+  return { type: ADD_VERTEX, polygonIndex, position };
 }
 
 export function setVertexPosition(polygonIndex, vertexIndex, x, y) {
