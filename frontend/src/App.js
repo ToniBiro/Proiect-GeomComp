@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stage, Layer } from "react-konva";
 
 import { Provider, useDispatch, useSelector, useStore } from "react-redux";
 import { addPolygon, setCurrentPolygon, addVertex } from "./actions";
 
 import Polygon from "./components/Polygon";
+
+import { usePolygonInfo } from "./api";
 
 export default App;
 
@@ -63,6 +65,7 @@ function PolygonDisplay() {
           Add new polygon
         </button>
       </div>
+      <PolygonInfo polygon={polygons[currentPolygon]} />
       {/* textual representation of the polygons */}
       <ul>
         {polygons.map((polygon, index) => (
@@ -98,4 +101,39 @@ function PolygonDisplay() {
       </ul>
     </>
   );
+}
+
+function PolygonInfo({ polygon }) {
+  const { data, error, isPending, run } = usePolygonInfo(polygon);
+
+  useEffect(() => run(), [run, polygon]);
+
+  if (isPending) {
+    return "Loading...";
+  }
+  if (error) {
+    return `Something went wrong: ${error.message}`;
+  }
+  if (data) {
+    const perimeter = roundToPrecision(data.perimeter, 2);
+    const area = data.area;
+
+    return (
+      <>
+        <p>Perimeter: {perimeter}</p>
+        <p>Area: {area}</p>
+      </>
+    );
+  }
+  return "";
+}
+
+/**
+ * Rounds an input floating point number to a given number of decimals.
+ * @param {Number} num the number to round
+ * @param {Number} decimals how many decimals after the dot
+ */
+function roundToPrecision(num, decimals) {
+  const p = Math.pow(10, decimals);
+  return Math.round((num + Number.EPSILON) * p) / p;
 }
