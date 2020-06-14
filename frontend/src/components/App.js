@@ -24,7 +24,7 @@ export default App;
 function App() {
   return (
     <>
-      <h1>Intersecție de poligoane</h1>
+      <h1>Polygon Intersection</h1>
       <PolygonDisplay />
     </>
   );
