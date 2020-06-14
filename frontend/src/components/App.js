@@ -56,8 +56,8 @@ function PolygonDisplay() {
       >
         <Provider store={store}>
           <Layer>
-            {polygons.map((polygon) => (
-              <Polygon key={polygon.index} vertices={polygon.vertices} />
+            {polygons.map((polygon, index) => (
+              <Polygon key={index} vertices={polygon.vertices} />
             ))}
             <Vertices
               vertices={currentPolygon.vertices}
@@ -83,14 +83,14 @@ function PolygonDisplay() {
       <PolygonInfo polygon={currentPolygon} />
       {/* textual representation of the polygons */}
       <ul>
-        {polygons.map((polygon) => (
-          <li key={polygon.index}>
-            Polygon #{polygon.index}
-            {polygon.index !== currentPolygonIndex ? (
+        {polygons.map((polygon, index) => (
+          <li key={index}>
+            Polygon #{index}
+            {index !== currentPolygonIndex ? (
               <>
                 <button
                   disabled={addingNewVertex}
-                  onClick={() => dispatch(setCurrentPolygon(polygon.index))}
+                  onClick={() => dispatch(setCurrentPolygon(index))}
                   type="button"
                 >
                   Make current
@@ -106,7 +106,7 @@ function PolygonDisplay() {
                   ({x}, {y})
                 </li>
               ))}
-              {polygon.index === currentPolygonIndex && (
+              {index === currentPolygonIndex && (
                 <li style={{ listStyleType: "none" }}>
                   <button
                     disabled={addingNewVertex}
