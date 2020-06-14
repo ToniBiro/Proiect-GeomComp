@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Line } from "react-konva";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setVertexPosition } from "../actions";
+import { setVertexPosition } from "../redux/actions";
 
 import Vertex from "./Vertex";
 

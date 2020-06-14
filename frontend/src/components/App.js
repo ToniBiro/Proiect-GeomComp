@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Stage, Layer } from "react-konva";
 
 import { Provider, useDispatch, useSelector, useStore } from "react-redux";
-import { addPolygon, setCurrentPolygon, addVertex } from "./actions";
+import { addPolygon, setCurrentPolygon, addVertex } from "../redux/actions";
 
-import Polygon from "./components/Polygon";
+import Polygon from "./Polygon";
 
-import { usePolygonInfo } from "./api";
+import { usePolygonInfo } from "../api";
 
 export default App;
 
