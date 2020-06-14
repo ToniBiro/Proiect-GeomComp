@@ -1,5 +1,10 @@
 # Documentation
 
+### Contributors
+- [Majeri Gabriel Constantin](https://github.com/GabrielMajeri) (232)
+- [Biro-Balan Antonia](https://github.com/ToniBiro) (232)
+- [Surcea Mihai-Daniel](https://github.com/Treefold) (232)
+
 ### User Stories
 ```
 As a user I want to add a polygon so that I intersect more polygons.
