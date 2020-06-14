@@ -68,13 +68,13 @@ function PolygonDisplay() {
       <PolygonInfo polygon={polygons[currentPolygon]} />
       {/* textual representation of the polygons */}
       <ul>
-        {polygons.map((polygon, index) => (
-          <li key={index}>
-            Polygon #{index}
-            {index !== currentPolygon ? (
+        {polygons.map((polygon) => (
+          <li key={polygon.index}>
+            Polygon #{polygon.index}
+            {polygon.index !== currentPolygon ? (
               <button
                 disabled={addingNewVertex}
-                onClick={() => dispatch(setCurrentPolygon(index))}
+                onClick={() => dispatch(setCurrentPolygon(polygon.index))}
                 type="button"
               >
                 Make current
@@ -86,15 +86,17 @@ function PolygonDisplay() {
                   ({x}, {y})
                 </li>
               ))}
-              <li style={{ listStyleType: "none" }}>
-                <button
-                  disabled={addingNewVertex}
-                  onClick={() => setAddingNewVertex(true)}
-                  type="button"
-                >
-                  Add new
-                </button>
-              </li>
+              {polygon.index === currentPolygon && (
+                <li style={{ listStyleType: "none" }}>
+                  <button
+                    disabled={addingNewVertex}
+                    onClick={() => setAddingNewVertex(true)}
+                    type="button"
+                  >
+                    Add new
+                  </button>
+                </li>
+              )}
             </ol>
           </li>
         ))}
