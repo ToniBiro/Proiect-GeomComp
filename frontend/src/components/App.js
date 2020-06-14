@@ -2,9 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Stage, Layer } from "react-konva";
 
 import { Provider, useDispatch, useSelector, useStore } from "react-redux";
-import { addPolygon, setCurrentPolygon, addVertex } from "../redux/actions";
+import {
+  addPolygon,
+  setCurrentPolygon,
+  addVertex,
+  setVertexPosition,
+} from "../redux/actions";
 
 import Polygon from "./Polygon";
+import Vertices from "./Vertices";
 
 import { usePolygonInfo } from "../api";
 
@@ -28,7 +34,8 @@ function PolygonDisplay() {
   const store = useStore();
   const dispatch = useDispatch();
   const polygons = useSelector((state) => state.polygons);
-  const currentPolygon = useSelector((state) => state.currentPolygon);
+  const currentPolygonIndex = useSelector((state) => state.currentPolygon);
+  const currentPolygon = polygons[currentPolygonIndex];
 
   const [addingNewVertex, setAddingNewVertex] = useState(false);
 
@@ -42,16 +49,24 @@ function PolygonDisplay() {
         onMouseDown={({ target }) => {
           if (addingNewVertex) {
             const position = target.getStage().getPointerPosition();
-            dispatch(addVertex(currentPolygon, position));
+            dispatch(addVertex(currentPolygonIndex, position));
             setAddingNewVertex(false);
           }
         }}
       >
         <Provider store={store}>
           <Layer>
-            {polygons.map((_, index) => (
-              <Polygon key={index} index={index} />
+            {polygons.map((polygon) => (
+              <Polygon key={polygon.index} vertices={polygon.vertices} />
             ))}
+            <Vertices
+              vertices={currentPolygon.vertices}
+              updatePosition={(vertexIndex, x, y) => {
+                dispatch(
+                  setVertexPosition(currentPolygonIndex, vertexIndex, x, y)
+                );
+              }}
+            />
           </Layer>
         </Provider>
       </Stage>
@@ -65,20 +80,25 @@ function PolygonDisplay() {
           Add new polygon
         </button>
       </div>
-      <PolygonInfo polygon={polygons[currentPolygon]} />
+      <PolygonInfo polygon={currentPolygon} />
       {/* textual representation of the polygons */}
       <ul>
         {polygons.map((polygon) => (
           <li key={polygon.index}>
             Polygon #{polygon.index}
-            {polygon.index !== currentPolygon ? (
-              <button
-                disabled={addingNewVertex}
-                onClick={() => dispatch(setCurrentPolygon(polygon.index))}
-                type="button"
-              >
-                Make current
-              </button>
+            {polygon.index !== currentPolygonIndex ? (
+              <>
+                <button
+                  disabled={addingNewVertex}
+                  onClick={() => dispatch(setCurrentPolygon(polygon.index))}
+                  type="button"
+                >
+                  Make current
+                </button>
+                <button disabled={addingNewVertex} type="button">
+                  Intersect with current
+                </button>
+              </>
             ) : null}
             <ol>
               {polygon.vertices.map(({ x, y }, index) => (
@@ -86,14 +106,14 @@ function PolygonDisplay() {
                   ({x}, {y})
                 </li>
               ))}
-              {polygon.index === currentPolygon && (
+              {polygon.index === currentPolygonIndex && (
                 <li style={{ listStyleType: "none" }}>
                   <button
                     disabled={addingNewVertex}
                     onClick={() => setAddingNewVertex(true)}
                     type="button"
                   >
-                    Add new
+                    Add new vertex
                   </button>
                 </li>
               )}
