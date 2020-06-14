@@ -1,4 +1,4 @@
-# Documentation
+# Documentation: Non Tehnical Description
 
 ## Contributors
 - [Majeri Gabriel Constantin](https://github.com/GabrielMajeri) (232)
