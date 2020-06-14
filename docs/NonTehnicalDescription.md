@@ -35,8 +35,8 @@ As a user I want to be able to name my polygons so that I find them more easily.
 
 ## Behavior Description 
 - #### Server (backend):
-  - get_polygon_info: given 1 polynom, it shall return the area, perimeter and the type (convex, concave) of that polynom
-  - compute_intersection: given 2 polynoms, it shall return 3 list containing the components of the first polynom except the intersection, the second polynom except the intersection and a polynom of the intersection
+  - get_polygon_info: given 1 polygon, it shall return the area, perimeter and the type (convex, concave) of that polygon
+  - compute_intersection: given 2 polygons, it shall return 3 list containing the components of the first polygon except the intersection, the second polygon except the intersection and a polygon of the intersection
 - #### Interface (frontend):
   - addPolygon: shall add an empty polygon (no vertices)
   - setCurrentPolygon: shall change the current modified polygon
@@ -47,5 +47,5 @@ As a user I want to be able to name my polygons so that I find them more easily.
 - #### Interface (frontend):
   - addPolygon: shall create a new empty poligon and 2 buttons: "Make current" (polygon) and "Add New" (vertex)
   - setCurrentPolygon: shall disable the button "Make current" for the new current polygon and shall enable the "Make Current" button for the previous current polygon
-  - addVertex: shall create a vertex where you click in the drawing zone and the vertex shall be displayed in the polygon vertex list with the coordinates of the click; if there are less than 3 vertice in this polynom then after adding the new vertex, all vertices shall be connected, else (there are 3 or more vertices) the last connection shall be removed and the new vertex shall connect to the previous last vertex (becoming the new last vertex) and the first created vertex
+  - addVertex: shall create a vertex where you click in the drawing zone and the vertex shall be displayed in the polygon vertex list with the coordinates of the click; if there are less than 3 vertice in this polygon then after adding the new vertex, all vertices shall be connected, else (there are 3 or more vertices) the last connection shall be removed and the new vertex shall connect to the previous last vertex (becoming the new last vertex) and the first created vertex
   - setVertexPosition: by clicking and dragging a vertex, it shall move to the location where it was released; also, the position of the vertex shall be updated in the polygon vertex list
