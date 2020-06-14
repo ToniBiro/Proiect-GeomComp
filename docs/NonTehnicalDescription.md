@@ -23,12 +23,22 @@ As a user I want to delete the whole poligon so that I don’t have to delete it
 As a user I want to be able to name my polygons so that I find them more easily.
 ```
 
-### Features Server (backend):
-- get_polygon_info: given 1 polynom, it returns the area, perimeter and the type (convex, concave) of that polynom
-- compute_intersection: given 2 polynoms, it returns 3 list containing the components of the first polynom except the intersection, the second polynom except the intersection and a polynom of the intersection
+### Features:
+- Server (backend):
+  - get_polygon_info
+  - compute_intersection
+- Interface (frontend):
+  - addPolygon
+  - setCurrentPolygon
+  - addVertex
+  - setVertexPosition
 
-### Features Interface (frontend):
-- addPolygon: adds an empty polygon (no vertices)
-- setCurrentPolygon: change the current modified polygon
-- addVertex: for the current polygon add a vertex
-- setVertexPosition: change a vertex position for a polygon
+### Behavior Description 
+###### - Server (backend):
+  - get_polygon_info: given 1 polynom, it returns the area, perimeter and the type (convex, concave) of that polynom
+  - compute_intersection: given 2 polynoms, it returns 3 list containing the components of the first polynom except the intersection, the second polynom except the intersection and a polynom of the intersection
+###### - Interface (frontend):
+  - addPolygon: adds an empty polygon (no vertices)
+  - setCurrentPolygon: change the current modified polygon
+  - addVertex: for the current polygon add a vertex
+  - setVertexPosition: change a vertex position for a polygon
