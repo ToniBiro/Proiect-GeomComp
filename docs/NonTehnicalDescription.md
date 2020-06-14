@@ -1,11 +1,11 @@
 # Documentation
 
-### Contributors
+## Contributors
 - [Majeri Gabriel Constantin](https://github.com/GabrielMajeri) (232)
 - [Biro-Balan Antonia](https://github.com/ToniBiro) (232)
 - [Surcea Mihai-Daniel](https://github.com/Treefold) (232)
 
-### User Stories
+## User Stories
 ```
 As a user I want to add a polygon so that I intersect more polygons.
 As a user I want to change the color of any polygon so that I can distinguish between them more easily.
@@ -23,22 +23,29 @@ As a user I want to delete the whole poligon so that I don’t have to delete it
 As a user I want to be able to name my polygons so that I find them more easily.
 ```
 
-### Features:
-- Server (backend):
+## Features:
+- #### Server (backend):
   - get_polygon_info
   - compute_intersection
-- Interface (frontend):
+- #### Interface (frontend):
   - addPolygon
   - setCurrentPolygon
   - addVertex
   - setVertexPosition
 
-### Behavior Description 
-###### - Server (backend):
-  - get_polygon_info: given 1 polynom, it returns the area, perimeter and the type (convex, concave) of that polynom
-  - compute_intersection: given 2 polynoms, it returns 3 list containing the components of the first polynom except the intersection, the second polynom except the intersection and a polynom of the intersection
-###### - Interface (frontend):
-  - addPolygon: adds an empty polygon (no vertices)
-  - setCurrentPolygon: change the current modified polygon
-  - addVertex: for the current polygon add a vertex
-  - setVertexPosition: change a vertex position for a polygon
+## Behavior Description 
+- #### Server (backend):
+  - get_polygon_info: given 1 polynom, it shall return the area, perimeter and the type (convex, concave) of that polynom
+  - compute_intersection: given 2 polynoms, it shall return 3 list containing the components of the first polynom except the intersection, the second polynom except the intersection and a polynom of the intersection
+- #### Interface (frontend):
+  - addPolygon: shall add an empty polygon (no vertices)
+  - setCurrentPolygon: shall change the current modified polygon
+  - addVertex: shall add a vertex in the selected polygon 
+  - setVertexPosition: shall change a vertex position for a polygon
+
+## Visual Aspect Description
+- #### Interface (frontend):
+  - addPolygon: shall create a new empty poligon and 2 buttons: "Make current" (polygon) and "Add New" (vertex)
+  - setCurrentPolygon: shall disable the fuction for the button "Make current" for the new current polygon and shall enable the "Make Current" button for the previous current polygon
+  - addVertex: shall create a vertex where you click in the drawing zone and the vertex shall be displayed in the polygon vertex list with the coordonation of the click; if there are less than 3 vertice in this polynom then after adding the new vertex, all vertices shall be connected, else (there are 3 or more vertices) the last connection shall be removed and the new vertex shall connect to the previous last vertex (becoming the new last vertex) and the first created vertex
+  - setVertexPosition: by clicking and dragging a vertex, it shall move to the location where it was released; also, the position of the vertex shall be updated in the poligon vertex list
