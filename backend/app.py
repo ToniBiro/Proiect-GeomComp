@@ -38,36 +38,35 @@ def compute_intersection():
     }
 
     """
-    dcel = DCEL()
-    polygon1_aux = []
-    polygon2_aux = []
-    polygon1 = []
-    polygon2 = []
-
     # read json data from input
-    polygon1_aux = request.get_json()['polygon1']
-    if polygon1_aux.is_json():
-        for i, point in enumerate(polygon1_aux):
-            polygon1.append(Vector2D(point[0], point[1]))
-        polygon1 = dcel.create_face_from_points(polygon1)
-    else:
-        return '\nWrong input.\nPlease pass the following format: {\n\t\'polygon1\': [(0, 0), (1, 0), ...],\n\t\'polygon2\': [(0.5, -0.25), (1.25, -0.25), ...]\n}'
+    data = request.get_json()
 
-    polygon2_aux = request.get_json()['polygon2']
-    if polygon2_aux.is_json():
-        for i, point in enumerate(polygon2_aux):
-            polygon2.append(Vector2D(point[0], point[1]))
-        polygon2 = dcel.create_face_from_points(polygon2)
-    else:
-        return '\nWrong input.\nPlease pass the following format: {\n\t\'polygon1\': [(0, 0), (1, 0), ...],\n\t\'polygon2\': [(0.5, -0.25), (1.25, -0.25), ...]\n}'
+    try:
+        polygon1_aux = data['polygon1']
+        polygon2_aux = data['polygon2']
+        if not isinstance(polygon1_aux, list):
+            raise ValueError
+        if not isinstance(polygon2_aux, list):
+            raise ValueError
+    except (AttributeError, ValueError):
+        return jsonify('Wrong input')
+
+    dcel = DCEL()
+
+    polygon1 = []
+    for i, point in enumerate(polygon1_aux):
+        polygon1.append(Vector2D(point[0], point[1]))
+
+    polygon1 = dcel.create_face_from_points(polygon1)
+
+    polygon2 = []
+    for i, point in enumerate(polygon2_aux):
+        polygon2.append(Vector2D(point[0], point[1]))
+    polygon2 = dcel.create_face_from_points(polygon2)
 
     insect = intersect_polygons(dcel, polygon1, polygon2)
 
-    # test prints - remove before deployment
-    print(polygon1_aux)
-    print(len(insect))
-
-# Extract the result
+    # Extract the result
     json_resp = dict()
     for i in range(len(insect)):
         json_resp['points_' + str(i+1)] = []
@@ -77,9 +76,6 @@ def compute_intersection():
         for edge in polygon:
             json_resp['points_' +
                       str(i+1)].append((edge.target.point.x, edge.target.point.y))
-
-    # print json response
-    print(json_resp)
 
     return jsonify(json_resp)
 
@@ -93,31 +89,33 @@ def get_polygon_info():
 
     Returns: A dictionary wtih area, perimeter and polygon type (concave, convex)
     e.g. polygon_info = {
-                                'area' : 1,
-                                'perimeter' : 4,
-                                'type' : 'concave'
-                }
+        'area' : 1,
+        'perimeter' : 4,
+        'type' : 'concave'
+    }
     """
+    # read json data from input
+    data = request.get_json()
+    try:
+        polygon = data['polygon']
+        if not isinstance(polygon, list):
+            raise ValueError
+    except (AttributeError, ValueError):
+        return jsonify('Wrong input')
+
     polygon_info = {
         'area': None,
         'perimeter': None,
         'type': None
     }
 
-    polygon = []
+    # compute the information
+    polygon_info['area'] = compute_area(polygon)
+    polygon_info['perimeter'] = compute_perimeter(polygon)
+    polygon_info['type'] = define_polygon_type(polygon)
 
-    # read json data from input
-    polygon = request.get_json()['polygon']
-    if polygon.is_json():
+    return jsonify(polygon_info)
 
-        # compute the information
-        polygon_info['area'] = compute_area(polygon)
-        polygon_info['perimeter'] = compute_perimeter(polygon)
-        polygon_info['type'] = define_polygon_type(polygon)
-
-        return jsonify(polygon_info)
-    else:
-        return '\nWrong input.\nPlease pass the following format: { \'polygon\' : [(0, 0), (1, 0), (1, 1), (0, 1)] }'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8001)
