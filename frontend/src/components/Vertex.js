@@ -1,7 +1,7 @@
 import React from "react";
 import { Circle } from "react-konva";
 
-export default function Vertex({ x, y, onDragEnd }) {
+export default function Vertex({ x, y, dragBoundFunc, onDragEnd }) {
   return (
     <Circle
       x={x}
@@ -9,6 +9,7 @@ export default function Vertex({ x, y, onDragEnd }) {
       radius={10}
       fill="red"
       draggable={true}
+      dragBoundFunc={dragBoundFunc}
       onDragEnd={onDragEnd}
     />
   );

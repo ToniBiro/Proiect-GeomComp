@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Stage, Layer } from "react-konva";
 
-import { Provider, useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addPolygon,
   setCurrentPolygon,
@@ -31,7 +31,6 @@ function App() {
 }
 
 function PolygonDisplay() {
-  const store = useStore();
   const dispatch = useDispatch();
   const polygons = useSelector((state) => state.polygons);
   const currentPolygonIndex = useSelector((state) => state.currentPolygon);
@@ -39,13 +38,16 @@ function PolygonDisplay() {
 
   const [addingNewVertex, setAddingNewVertex] = useState(false);
 
+  const [width, height] = [360, 360];
+  const bounds = { xMin: 15, xMax: width - 15, yMin: 15, yMax: height - 15 };
+
   return (
     <>
       {addingNewVertex && <h2>Click anywhere to add a new vertex</h2>}
       {/* draw the polygons on a canvas */}
       <Stage
-        width={360}
-        height={360}
+        width={width}
+        height={height}
         onMouseDown={({ target }) => {
           if (addingNewVertex) {
             const position = target.getStage().getPointerPosition();
@@ -54,21 +56,20 @@ function PolygonDisplay() {
           }
         }}
       >
-        <Provider store={store}>
-          <Layer>
-            {polygons.map((polygon, index) => (
-              <Polygon key={index} vertices={polygon.vertices} />
-            ))}
-            <Vertices
-              vertices={currentPolygon.vertices}
-              updatePosition={(vertexIndex, x, y) => {
-                dispatch(
-                  setVertexPosition(currentPolygonIndex, vertexIndex, x, y)
-                );
-              }}
-            />
-          </Layer>
-        </Provider>
+        <Layer>
+          {polygons.map((polygon, index) => (
+            <Polygon key={index} vertices={polygon.vertices} />
+          ))}
+          <Vertices
+            bounds={bounds}
+            vertices={currentPolygon.vertices}
+            updatePosition={(vertexIndex, x, y) => {
+              dispatch(
+                setVertexPosition(currentPolygonIndex, vertexIndex, x, y)
+              );
+            }}
+          />
+        </Layer>
       </Stage>
       {/* user controls */}
       <div>
