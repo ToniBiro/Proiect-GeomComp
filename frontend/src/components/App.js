@@ -109,9 +109,6 @@ function PolygonDisplay() {
                       polygon1,
                       polygon2
                     );
-                    console.log(
-                      `Intersection produced ${intersection.length} polygons`
-                    );
                     for (let i = 0; i < intersection.length; ++i) {
                       const vertices = intersection[`polygon_${i}`]
                         .map(([x, y]) => ({ x, y }))

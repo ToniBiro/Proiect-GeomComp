@@ -17,15 +17,16 @@ function encodePolygon(polygon) {
   return polygon.vertices.map(({ x, y }) => [x, y]).reverse();
 }
 
-export function computeIntersection(polygon1, polygon2) {
+export async function computeIntersection(polygon1, polygon2) {
   const params = {
     polygon1: encodePolygon(polygon1),
     polygon2: encodePolygon(polygon2),
   };
-  return fetch(`${API_BASE_URL}/get_intersection`, {
+  const res = await fetch(`${API_BASE_URL}/get_intersection`, {
     ...FETCH_OPTIONS,
     body: JSON.stringify(params),
-  }).then((res) => res.json());
+  });
+  return res.json();
 }
 
 export function usePolygonInfo(polygon) {
