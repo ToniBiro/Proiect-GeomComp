@@ -27,6 +27,7 @@ const currentPolygonReducer = (state = 0, action) => {
 
 const initialPolygonList = [
   {
+    color: "rgba(0, 210, 255, 0.4)",
     vertices: [
       {
         x: 23,
@@ -51,6 +52,7 @@ const initialPolygonList = [
     ],
   },
   {
+    color: "rgba(100, 230, 50, 0.4)",
     vertices: [
       {
         x: 122,
@@ -74,6 +76,7 @@ const polygonListReducer = (state = initialPolygonList, action) => {
       return [
         ...state,
         {
+          color: randomColor(),
           vertices: action.vertices,
         },
       ];
@@ -115,3 +118,15 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+
+function randomInt(min, max) {
+  return 0 | (min + Math.random() * (max - min));
+}
+
+function randomColor() {
+  const r = randomInt(0, 255);
+  const g = randomInt(0, 255);
+  const b = randomInt(0, 255);
+  const a = Math.random();
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}

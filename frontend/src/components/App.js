@@ -66,7 +66,12 @@ function PolygonDisplay() {
       >
         <Layer>
           {polygons.map((polygon, index) => (
-            <Polygon key={index} vertices={polygon.vertices} />
+            <Polygon
+              key={index}
+              vertices={polygon.vertices}
+              color={polygon.color}
+              stroke={index === currentPolygonIndex ? "black" : null}
+            />
           ))}
           <Vertices
             bounds={bounds}
@@ -105,28 +110,28 @@ function PolygonDisplay() {
               </>
             )}
             {index !== currentPolygonIndex && polygon.vertices.length > 0 && (
-                <button
-                  disabled={uiDisabled}
-                  onClick={async () => {
-                    setComputingIntersection(true);
-                    const polygon1 = currentPolygon;
-                    const polygon2 = polygons[index];
-                    const intersection = await computeIntersection(
-                      polygon1,
-                      polygon2
-                    );
-                    for (let i = 0; i < intersection.length; ++i) {
-                      const vertices = intersection[`polygon_${i}`]
-                        .map(([x, y]) => ({ x, y }))
-                        .reverse();
-                      dispatch(addPolygon(vertices));
-                    }
-                    setComputingIntersection(false);
-                  }}
-                  type="button"
-                >
-                  Intersect with current
-                </button>
+              <button
+                disabled={uiDisabled}
+                onClick={async () => {
+                  setComputingIntersection(true);
+                  const polygon1 = currentPolygon;
+                  const polygon2 = polygons[index];
+                  const intersection = await computeIntersection(
+                    polygon1,
+                    polygon2
+                  );
+                  for (let i = 0; i < intersection.length; ++i) {
+                    const vertices = intersection[`polygon_${i}`]
+                      .map(([x, y]) => ({ x, y }))
+                      .reverse();
+                    dispatch(addPolygon(vertices));
+                  }
+                  setComputingIntersection(false);
+                }}
+                type="button"
+              >
+                Intersect with current
+              </button>
             )}
             <ol>
               {polygon.vertices.map(({ x, y }, index) => (

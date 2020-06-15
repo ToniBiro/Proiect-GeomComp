@@ -5,14 +5,14 @@ import { Line } from "react-konva";
 /**
  * Renders a filled polygonal contour and its vertices.
  */
-export default function Polygon({ vertices }) {
+export default function Polygon({ vertices, color, stroke }) {
   const points = vertices.flatMap(({ x, y }) => [x, y]);
   return (
     <>
       <Line
         points={points}
-        fill="#00D2FF66"
-        stroke="black"
+        fill={color}
+        stroke={stroke}
         strokeWidth={3}
         closed={true}
       />
@@ -22,4 +22,5 @@ export default function Polygon({ vertices }) {
 
 Polygon.propTypes = {
   vertices: PropTypes.array,
+  color: PropTypes.string,
 };
