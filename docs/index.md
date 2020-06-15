@@ -1,7 +1,9 @@
 
 <img src="https://github.com/ToniBiro/Proiect-GeomComp/blob/master/docs/logo.png?raw=true" alt="Image" width="200" height="200"/>
 
-# Polygon Intersection
+# Interseco
+
+## Polygon Intersection
 
 - [Technical Description](TechnicalDescription.md)
 - [Non-Technical Description](NonTechnicalDescription.md)
