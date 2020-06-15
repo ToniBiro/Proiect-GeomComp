@@ -1,7 +1,10 @@
+"Primitve geometric objects and functions"
 import math
 
 
 class Vector2D:
+    "Directed segment in the 2D plane"
+
     def __init__(self, x, y):
         self.x = x
         self.y = y

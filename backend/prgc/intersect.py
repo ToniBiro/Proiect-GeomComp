@@ -1,3 +1,4 @@
+"Intersection functions and support structures"
 from .primitive import Vector2D, right_turn
 
 
@@ -45,6 +46,7 @@ class Line:
 
 
 def get_determinant(line1, line2):
+    "Computes the 2D determinant from the coefficients of two lines"
     return line1.a * line2.b - line2.a * line1.b
 
 

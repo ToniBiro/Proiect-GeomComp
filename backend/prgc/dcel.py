@@ -1,5 +1,6 @@
+"""Doubly connected edge list representation for polygons."""
+
 from io import StringIO
-from .primitive import Vector2D
 from .intersect import Segment
 
 
@@ -94,6 +95,8 @@ class Edge:
 
 
 class Face:
+    """Closed loop of edges, defining a face of a 2D shape"""
+
     def __init__(self, edge):
         self.edge = edge
         for edge in self:
@@ -110,6 +113,13 @@ class Face:
 
 
 class DCEL:
+    """Store of vertices, edges and faces, representing one or more polygons.
+
+    For each polygon, we store its internal face, defined by a clockwise wound
+    traversal of its vertices, and its external face, which is counter-clockwise
+    wound.
+    """
+
     def __init__(self):
         self.vertices = []
         self.edges = []
@@ -145,6 +155,7 @@ class DCEL:
         return face
 
     def make_twin(self, e1, e2):
+        "Makes two edges be twins to one another"
         assert e1 in self.edges
         assert e2 in self.edges
 
@@ -152,6 +163,11 @@ class DCEL:
         e2.twin = e1
 
     def split(self, edge, vertex):
+        """Split the given edge (and its twin) into new edges,
+        at a given vertex.
+
+        The vertex needn't be on the edge.
+        """
         assert vertex in self.vertices
         assert edge in self.edges
 
@@ -176,12 +192,6 @@ class DCEL:
 
         self.make_twin(edge, new_reverse_edge)
         self.make_twin(new_direct_edge, twin)
-
-    def add_intersection(self, e1, e2):
-        assert e1 in self.edges
-        assert e2 in self.edges
-
-        raise NotImplementedError
 
     def create_face_from_points(self, points):
         """Creates a new face from a set of points.
