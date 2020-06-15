@@ -22,4 +22,4 @@ jobs:
           docker-compose up -d
           docker-compose down
       - name: Run the automated backend tests
-        run: docker run --rm proiect-geomcomp_backend pytest
+        run: docker run --rm interseco_backend pytest
