@@ -1,11 +1,7 @@
 # Documentation: Tehnical Description
 
-## Contributors
-- [Majeri Gabriel Constantin](https://github.com/GabrielMajeri) (232)
-- [Biro-Balan Antonia](https://github.com/ToniBiro) (232)
-- [Surcea Mihai-Daniel](https://github.com/Treefold) (232)
-
 ## List of Classes for Backend:
+
 - [Vector2D](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L4): is a vector with 2 components (a point in a 2D plan)
   - x (property): reprezents the coordinates of the x axis (real number)
   - y (property): reprezents the coordinates of the y axis (real number)
@@ -39,9 +35,9 @@
 - [Face](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/dcel.py#L96): reprezents one of the faces of a polygon
   - edge (property): reprezents a pointer to one of the half-edges (Edge) that belongs to the current Face (self)
 - [DCEL](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/dcel.py#L112): reprezents a doubly connected edge list
-  - vertices (property): reprezents an array of Vertix objects that belong to the DCEL 
-  - edges (property): reprezents an array of Edge objects that belong to the DCEL 
-  - faces (property): reprezents an array of Face objects that belong to the DCEL 
+  - vertices (property): reprezents an array of Vertix objects that belong to the DCEL
+  - edges (property): reprezents an array of Edge objects that belong to the DCEL
+  - faces (property): reprezents an array of Face objects that belong to the DCEL
   - [create_vertex](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/dcel.py#L118): shall add a new given vertex, initially not connected to anything
   - [create_edge](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/dcel.py#L125): shall add a new edge, connecting the two given vertices
   - [create_face](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/dcel.py#L138): shall add a new face, the one to the left of the given edge
@@ -54,9 +50,9 @@
 
 ![image](https://github.com/ToniBiro/Proiect-GeomComp/blob/master/Documentation/diagram_classes_backend.png)
 
-
 ## List of Features for Backend:
-*All classes are used to represent the structure of a polygon which is needed in all backend features
+
+\*All classes are used to represent the structure of a polygon which is needed in all backend features
 
 - [get_polygon_info](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/app.py#L88): given 1 polygon as a polygonal chain as parameter, it shall return its [area](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L74), [perimeter](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L93) and [type](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L119) (convex or concave)
 - [compute_intersection](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/app.py#L19): given 2 polygons as polygonal chains as parameters, transform them in doubly connected edge list and perform the intersection; the returned value shall contain the fist polygon without the intersection, the second polygon without the intersection and the intersection reprezented as multiple polygonal chains
