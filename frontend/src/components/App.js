@@ -4,6 +4,7 @@ import { Stage, Layer } from "react-konva";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addPolygon,
+  deletePolygon,
   setCurrentPolygon,
   addVertex,
   setVertexPosition,
@@ -83,7 +84,16 @@ function PolygonDisplay() {
         {polygons.map((polygon, index) => (
           <li key={index}>
             Polygon #{index}
-            {index !== currentPolygonIndex ? (
+            {polygons.length > 1 && (
+              <button
+                disabled={uiDisabled}
+                onClick={() => dispatch(deletePolygon(index))}
+                type="button"
+              >
+                Delete
+              </button>
+            )}
+            {index !== currentPolygonIndex && (
               <>
                 <button
                   disabled={uiDisabled}
@@ -92,6 +102,9 @@ function PolygonDisplay() {
                 >
                   Make current
                 </button>
+              </>
+            )}
+            {index !== currentPolygonIndex && polygon.vertices.length > 0 && (
                 <button
                   disabled={uiDisabled}
                   onClick={async () => {
@@ -114,8 +127,7 @@ function PolygonDisplay() {
                 >
                   Intersect with current
                 </button>
-              </>
-            ) : null}
+            )}
             <ol>
               {polygon.vertices.map(({ x, y }, index) => (
                 <li key={index}>

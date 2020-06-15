@@ -5,10 +5,19 @@ import {
   SET_CURRENT_POLYGON,
   ADD_VERTEX,
   SET_VERTEX_POSITION,
+  DELETE_POLYGON,
 } from "./actions";
 
 const currentPolygonReducer = (state = 0, action) => {
   switch (action.type) {
+    case DELETE_POLYGON:
+      const index = action.polygonIndex;
+      if (index <= state) {
+        if (state > 0) {
+          return state - 1;
+        }
+      }
+      return state;
     case SET_CURRENT_POLYGON:
       return action.polygonIndex;
     default:
@@ -68,6 +77,9 @@ const polygonListReducer = (state = initialPolygonList, action) => {
           vertices: action.vertices,
         },
       ];
+    case DELETE_POLYGON:
+      const index = action.polygonIndex;
+      return [...state.slice(0, index), ...state.slice(index + 1)];
     default:
       return state.map((polygon, index) =>
         polygonReducer(polygon, index, action)
