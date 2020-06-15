@@ -5,7 +5,7 @@ from flask_cors import CORS
 from prgc.dcel import DCEL
 from prgc.intersect import intersect_polygons
 from prgc.primitive import Vector2D
-from prgc.primitive import compute_area, compute_perimeter, define_polygon_type
+from prgc.primitive import compute_area, compute_perimeter, determine_polygon_type
 
 
 app = Flask(__name__)
@@ -112,7 +112,7 @@ def get_polygon_info():
     # compute the information
     polygon_info['area'] = compute_area(polygon)
     polygon_info['perimeter'] = compute_perimeter(polygon)
-    polygon_info['type'] = define_polygon_type(polygon)
+    polygon_info['type'] = determine_polygon_type(polygon)
 
     return jsonify(polygon_info)
 

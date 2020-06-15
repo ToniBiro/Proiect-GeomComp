@@ -140,11 +140,13 @@ function PolygonInfo({ polygon }) {
   if (data) {
     const perimeter = roundToPrecision(data.perimeter, 2);
     const area = data.area;
+    const type = data.type;
 
     return (
       <>
         <p>Perimeter: {perimeter}</p>
         <p>Area: {area}</p>
+        <p>Type: {type}</p>
       </>
     );
   }

@@ -116,9 +116,9 @@ def cross_product(point_1, point_2, point_3):
     return a * d - b * c
 
 
-def define_polygon_type(polygon):
+def determine_polygon_type(polygon):
     """
-    Returns either concav or convex.
+    Returns either "concave" or "convex".
     """
     check = cross_product(polygon[len(polygon)-2],
                           polygon[len(polygon)-1], polygon[0]) <= 0
@@ -128,7 +128,4 @@ def define_polygon_type(polygon):
         convex = check == (cross_product(
             polygon[i], polygon[i+1], polygon[i+2]) <= 0)
 
-    if convex == True:
-        return 'convex'
-    else:
-        return 'concave'
+    return 'convex' if convex else 'concave'
