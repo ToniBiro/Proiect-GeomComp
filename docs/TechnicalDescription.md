@@ -48,7 +48,7 @@
 
 ## Diagram of Classes for Backend
 
-![image](https://github.com/ToniBiro/Proiect-GeomComp/blob/master/Documentation/diagram_classes_backend.png)
+![image](diagram_classes_backend.png)
 
 ## List of Features for Backend:
 
