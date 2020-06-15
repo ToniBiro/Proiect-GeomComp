@@ -16,6 +16,8 @@ npm start
 
 ## Generate documentation
 
+The documentation can be generated using [jsdoc](https://jsdoc.app/).
+
 ```sh
 npm run doc
 ```
