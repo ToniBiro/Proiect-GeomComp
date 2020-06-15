@@ -139,7 +139,7 @@ function PolygonInfo({ polygon }) {
   }
   if (data) {
     const perimeter = roundToPrecision(data.perimeter, 2);
-    const area = data.area;
+    const area = roundToPrecision(data.area, 2);
     const type = data.type;
 
     return (
