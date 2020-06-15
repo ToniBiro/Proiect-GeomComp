@@ -22,5 +22,13 @@ Not being able to comprehend the visual part of geometry results most of the tim
 
 The scope of this application is to help students learn and teachers teach in a more efficient and attractive way an important part of geometry, intersections.
 
-
 This piece of software is designed for people of all ages but our targeted audience is mainly middle school/high school students.
+
+## The beginning
+
+We started working on the app as our final project for the Computational Geometry class.
+
+Most of the concepts applied in the code of the app we learned from that class, also understanding how important visualization is for this field of study.
+
+This can be extended to any part of geometry, so we chose to create something that eases the understanding of polygon intersection seeing what an important role it has as a building foundation to further grasp more complex concepts.
+
