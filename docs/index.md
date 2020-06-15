@@ -91,7 +91,5 @@ This should start the application.
 
 If the app is running using Docker than all you need to do is run ```docker-compose down``` in the command line in the folder where you started the container.
 
-### With ```npm```
-
 
 
