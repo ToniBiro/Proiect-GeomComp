@@ -123,12 +123,11 @@ def determine_polygon_type(polygon):
     """
     Returns either "concave" or "convex".
     """
-    check = cross_product(polygon[len(polygon)-2],
-                          polygon[len(polygon)-1], polygon[0]) <= 0
+    check = cross_product(polygon[-2], polygon[-1], polygon[0]) <= 0
     convex = (check == (cross_product(
-        polygon[len(polygon)-1], polygon[0], polygon[1]) <= 0))
+        polygon[-1], polygon[0], polygon[1]) <= 0))
     for i in range(0, len(polygon)-2):
-        convex = check == (cross_product(
-            polygon[i], polygon[i+1], polygon[i+2]) <= 0)
+        convex = convex and (check == (cross_product(
+            polygon[i], polygon[i+1], polygon[i+2]) <= 0))
 
     return 'convex' if convex else 'concave'
