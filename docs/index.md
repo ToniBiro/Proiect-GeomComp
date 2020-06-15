@@ -57,8 +57,6 @@ If you do not have docker-compose installed then please follow the instruction f
 
 ## With ```npm```
 
-Clonezi, pentru Python instalezi cu pip tot ce e în requirements.txt și apoi rulezi flask run, pentru front end instalezi cu npm install și dai npm start
-
 ### 1. Clone the GitHub repo
 
 Download on your local machine the current repo. You can use Github Desktop if you are on Windows or download it directly from the browser version. For more instructions click [here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository).
@@ -74,8 +72,8 @@ After everything has been installed from the previous step you will need to go t
 ### 4. Install ```npm```
 
 Go to the *frontend* folder from the repo on your local machine and open a command line there. Run ```install npm```.
-Next up run ```npm run```.
-
+Next up run ```npm start```.
+This should start the application.
 
 ## How to stop the app
 
