@@ -14,8 +14,18 @@ All students are from **group 232**:
 - [Biro-Balan Antonia](https://github.com/ToniBiro)
 - [Surcea Mihai-Daniel](https://github.com/Treefold)
 
+## About the application
 
-## About the application (marketing perspective)
+### Description
+
+This software covers two possible applications.
+
+Firstly, this project provides a Python library implementing a polygon intersection algorithm using Doubly Connected Edge Lists.
+This library can be used in the development of other projects.
+
+Secondly, it is designed to be an educational tool for teaching the fundaments of geometry. In order to display the functionality of the program, the repo contains a Flask server exposing the library functions. It is also equipped with a friendly user interface in order to be easy to use and address the needs of our targeted audience. It uses a React-based web interface and an offline GUI in Python.
+
+### Marketing perspective
 
 
 A picture is worth 1000 words. This is statement is especially true when it comes to learning geometry.
@@ -27,7 +37,7 @@ The scope of this application is to help students learn and teachers teach in a 
 
 This piece of software is designed for people of all ages but our targeted audience is mainly middle school/high school students.
 
-## The beginning
+### The beginning
 
 We started working on the app as our final project for the Computational Geometry class.
 
