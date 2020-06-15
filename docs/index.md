@@ -35,3 +35,37 @@ Most of the concepts applied in the code of the app we learned from that class, 
 
 This can be extended to any part of geometry, so we chose to create something that eases the understanding of polygon intersection seeing what an important role it has as a building foundation to further grasp more complex concepts.
 
+
+## Installation Instructions
+
+### 1. Clone the github repo
+
+Download on your local machine the current repo. You can use Github Desktop if you are on Windows or dowload it directly from the browser version. For more instructions click [here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository).
+
+### 2. Install Docker
+
+Before you can use the app you need to have Docker installed on your machine. If you don not have it installed yet please follow the instructions from [here](https://docs.docker.com/docker-for-windows/install/).
+
+### 3. Run on the command line docker-compose up
+
+Open a command line and go to the place you downloaded the github repo and then find the *backend* folder. Run the command ```docker-compose up```.
+
+### 4. Install ```npm```
+
+Go to the *frontend* folder from the repo on your local machine and open a command line there. Run ```install npm```.
+Next up run ```npm run```.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
