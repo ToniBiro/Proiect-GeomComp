@@ -40,6 +40,8 @@ def compute_intersection():
     """
     # read json data from input
     data = request.get_json()
+    if data is None:
+        return jsonify('Input is not JSON')
 
     try:
         polygon1_aux = data['polygon1']
@@ -96,6 +98,9 @@ def get_polygon_info():
     """
     # read json data from input
     data = request.get_json()
+    if data is None:
+        return jsonify('Input is not JSON')
+
     try:
         polygon = data['polygon']
         if not isinstance(polygon, list):
