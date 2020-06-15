@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "better-docs": "^2.0.1",
-    "jsdoc": "^3.6.4"
+    "jsdoc": "^3.6.4",
+    "prettier": "^2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
