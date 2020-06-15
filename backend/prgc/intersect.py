@@ -78,12 +78,10 @@ def intersect_segments(seg1, seg2):
                 return Vector2D(x, y)
 
     if det == 0:
-        print(seg1, seg2, seg1.slope(), seg2.slope())
         if seg1.slope() == seg2.slope():
             if seg1.fp.x * line2.a + seg1.fp.y * line2.b == -line2.c:
                 max_ = min(seg1.maximum(), seg2.maximum())
                 min_ = max(seg1.minimum(), seg2.minimum())
-                print(max_, min_)
                 if max_ > min_:
                     return [min_, max_]
     return None
@@ -161,7 +159,6 @@ def intersect_polygons(dcel, poly_a, poly_b):
                         break
                     if isinstance(result, list):
                         a, b = result
-                        print(result)
                         a.intersection = True
                         b.intersection = True
 
@@ -172,7 +169,6 @@ def intersect_polygons(dcel, poly_a, poly_b):
 
                         figures_isect.append(
                             [a.point.to_tuple(), b.point.to_tuple()])
-                        print(figures_isect[-1])
 
                         ok = False
 
