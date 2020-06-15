@@ -27,6 +27,13 @@ The app uses the [React](https://reactjs.org/) framework.
 Everything is broken into reusable components.
 Application-level data is persisted through [Redux](https://redux.js.org/).
 
+## Front end and Back end communication
+
+During an online sesion the front end and back end comunicate through the API available from the server.
+Here is an image with how a very short sesion looks like:
+
+![image](Architecture.png)
+
 ## Offline GUI
 
 We also provide a simple Python script which imports the library and
