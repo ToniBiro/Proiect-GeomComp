@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Circle } from "react-konva";
 
 export default function Vertex({ x, y, dragBoundFunc, onDragEnd }) {
@@ -14,3 +15,10 @@ export default function Vertex({ x, y, dragBoundFunc, onDragEnd }) {
     />
   );
 }
+
+Vertex.propTypes = {
+  x: PropTypes.number,
+  y: PropTypes.number,
+  dragBoundFunc: PropTypes.func,
+  onDragEnd: PropTypes.func,
+};

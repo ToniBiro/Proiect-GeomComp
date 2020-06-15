@@ -21,5 +21,5 @@ export default function Polygon({ vertices }) {
 }
 
 Polygon.propTypes = {
-  index: PropTypes.number,
+  vertices: PropTypes.array,
 };
