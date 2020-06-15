@@ -14,13 +14,20 @@ You can then run (or rerun) the front end server using:
 npm start
 ```
 
-## Format code
+## Check for errors
 
-After installing dependencies, you can format the code with
-[Prettier](https://prettier.io/) by running:
+You can run [ESLint](https://eslint.org/) by running:
 
 ```sh
-npx prettier --write .
+npm run check
+```
+
+## Format code
+
+You can format the code with [Prettier](https://prettier.io/) by running:
+
+```sh
+npm run format
 ```
 
 ## Generate documentation
