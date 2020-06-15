@@ -11,8 +11,8 @@ export const SET_VERTEX_POSITION = "SET_VERTEX_POSITION";
  * Action creators
  */
 
-export function addPolygon() {
-  return { type: ADD_POLYGON };
+export function addPolygon(vertices = []) {
+  return { type: ADD_POLYGON, vertices };
 }
 
 export function setCurrentPolygon(polygonIndex) {

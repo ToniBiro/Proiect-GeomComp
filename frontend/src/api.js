@@ -5,26 +5,35 @@ import { useFetch } from "react-async";
  */
 const API_BASE_URL = "http://localhost:5000";
 
-function usePostRequest(method, params) {
-  return useFetch(`${API_BASE_URL}/${method}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(params),
-  });
+const FETCH_OPTIONS = {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+};
+
+function encodePolygon(polygon) {
+  return polygon.vertices.map(({ x, y }) => [x, y]).reverse();
 }
 
-export function useIntersection(polygon1, polygon2) {
-  return usePostRequest("get_intersection", {
-    rect1: polygon1.vertices,
-    rect2: polygon2.vertices,
-  });
+export function computeIntersection(polygon1, polygon2) {
+  const params = {
+    polygon1: encodePolygon(polygon1),
+    polygon2: encodePolygon(polygon2),
+  };
+  return fetch(`${API_BASE_URL}/get_intersection`, {
+    ...FETCH_OPTIONS,
+    body: JSON.stringify(params),
+  }).then((res) => res.json());
 }
 
 export function usePolygonInfo(polygon) {
-  return usePostRequest("get_polygon_info", {
-    polygon: polygon.vertices.map(({ x, y }) => [x, y]),
+  const params = {
+    polygon: encodePolygon(polygon),
+  };
+  return useFetch(`${API_BASE_URL}/get_polygon_info`, {
+    ...FETCH_OPTIONS,
+    body: JSON.stringify(params),
   });
 }

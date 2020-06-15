@@ -12,7 +12,7 @@ import {
 import Polygon from "./Polygon";
 import Vertices from "./Vertices";
 
-import { usePolygonInfo } from "../api";
+import { computeIntersection, usePolygonInfo } from "../api";
 
 export default App;
 
@@ -37,6 +37,9 @@ function PolygonDisplay() {
   const currentPolygon = polygons[currentPolygonIndex];
 
   const [addingNewVertex, setAddingNewVertex] = useState(false);
+  const [computingIntersection, setComputingIntersection] = useState(false);
+
+  const uiDisabled = addingNewVertex || computingIntersection;
 
   const [width, height] = [360, 360];
   const bounds = { xMin: 15, xMax: width - 15, yMin: 15, yMax: height - 15 };
@@ -74,7 +77,7 @@ function PolygonDisplay() {
       {/* user controls */}
       <div>
         <button
-          disabled={addingNewVertex}
+          disabled={uiDisabled}
           type="button"
           onClick={() => dispatch(addPolygon())}
         >
@@ -90,13 +93,35 @@ function PolygonDisplay() {
             {index !== currentPolygonIndex ? (
               <>
                 <button
-                  disabled={addingNewVertex}
+                  disabled={uiDisabled}
                   onClick={() => dispatch(setCurrentPolygon(index))}
                   type="button"
                 >
                   Make current
                 </button>
-                <button disabled={addingNewVertex} type="button">
+                <button
+                  disabled={uiDisabled}
+                  onClick={async () => {
+                    setComputingIntersection(true);
+                    const polygon1 = currentPolygon;
+                    const polygon2 = polygons[index];
+                    const intersection = await computeIntersection(
+                      polygon1,
+                      polygon2
+                    );
+                    console.log(
+                      `Intersection produced ${intersection.length} polygons`
+                    );
+                    for (let i = 0; i < intersection.length; ++i) {
+                      const vertices = intersection[`polygon_${i}`]
+                        .map(([x, y]) => ({ x, y }))
+                        .reverse();
+                      dispatch(addPolygon(vertices));
+                    }
+                    setComputingIntersection(false);
+                  }}
+                  type="button"
+                >
                   Intersect with current
                 </button>
               </>
@@ -110,7 +135,7 @@ function PolygonDisplay() {
               {index === currentPolygonIndex && (
                 <li style={{ listStyleType: "none" }}>
                   <button
-                    disabled={addingNewVertex}
+                    disabled={uiDisabled}
                     onClick={() => setAddingNewVertex(true)}
                     type="button"
                   >

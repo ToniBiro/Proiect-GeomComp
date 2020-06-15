@@ -48,12 +48,12 @@ const initialPolygonList = [
         y: 156.21,
       },
       {
-        x: 87,
-        y: 83.21,
-      },
-      {
         x: 214,
         y: 59.21,
+      },
+      {
+        x: 87,
+        y: 83.21,
       },
     ],
   },
@@ -65,7 +65,7 @@ const polygonListReducer = (state = initialPolygonList, action) => {
       return [
         ...state,
         {
-          vertices: [],
+          vertices: action.vertices,
         },
       ];
     default:
