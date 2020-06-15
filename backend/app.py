@@ -54,28 +54,28 @@ def compute_intersection():
     dcel = DCEL()
 
     polygon1 = []
-    for i, point in enumerate(polygon1_aux):
+    for point in polygon1_aux:
         polygon1.append(Vector2D(point[0], point[1]))
 
     polygon1 = dcel.create_face_from_points(polygon1)
 
     polygon2 = []
-    for i, point in enumerate(polygon2_aux):
+    for point in polygon2_aux:
         polygon2.append(Vector2D(point[0], point[1]))
     polygon2 = dcel.create_face_from_points(polygon2)
 
     insect = intersect_polygons(dcel, polygon1, polygon2)
 
     # Extract the result
-    json_resp = dict()
+    json_resp = {'length': len(insect)}
     for i in range(len(insect)):
-        json_resp['points_' + str(i+1)] = []
+        json_resp['polygon_' + str(i)] = []
 
     # create json response
     for i, polygon in enumerate(insect):
         for edge in polygon:
-            json_resp['points_' +
-                      str(i+1)].append((edge.target.point.x, edge.target.point.y))
+            json_resp['polygon_' +
+                      str(i)].append((edge.target.point.x, edge.target.point.y))
 
     return jsonify(json_resp)
 
