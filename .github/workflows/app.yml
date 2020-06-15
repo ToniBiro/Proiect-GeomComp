@@ -17,9 +17,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Build the Docker images
         run: docker-compose build
-      - name: Start the services and then shut them down
-        run: |
-          docker-compose up -d
-          docker-compose down
+      - name: Start the services
+        run: docker-compose up -d
       - name: Run the automated backend tests
-        run: docker run --rm interseco_backend pytest
+        run: docker run interseco_backend pytest
+      - name: Shut down the services
+        run: docker-compose down
