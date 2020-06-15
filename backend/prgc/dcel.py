@@ -115,9 +115,9 @@ class Face:
 class DCEL:
     """Store of vertices, edges and faces, representing one or more polygons.
 
-    For each polygon, we store its internal face, defined by a clockwise wound
-    traversal of its vertices, and its external face, which is counter-clockwise
-    wound.
+    For each polygon, we store its internal face, defined by a counter-clockwise
+    wound traversal of its vertices, and its external face,
+    which is clockwise wound.
     """
 
     def __init__(self):
