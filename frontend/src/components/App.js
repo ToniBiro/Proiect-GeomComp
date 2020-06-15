@@ -14,6 +14,8 @@ import Vertices from "./Vertices";
 
 import { computeIntersection, usePolygonInfo } from "../api";
 
+import "./App.css";
+
 export default App;
 
 /**
@@ -24,7 +26,7 @@ export default App;
 function App() {
   return (
     <>
-      <h1>Polygon Intersection</h1>
+      <h1>Interseco</h1>
       <PolygonDisplay />
     </>
   );
@@ -47,6 +49,8 @@ function PolygonDisplay() {
   return (
     <>
       {addingNewVertex && <h2>Click anywhere to add a new vertex</h2>}
+      {/* display info about the current polygon */}
+      <PolygonInfo polygon={currentPolygon} />
       {/* draw the polygons on a canvas */}
       <Stage
         width={width}
@@ -74,17 +78,6 @@ function PolygonDisplay() {
           />
         </Layer>
       </Stage>
-      {/* user controls */}
-      <div>
-        <button
-          disabled={uiDisabled}
-          type="button"
-          onClick={() => dispatch(addPolygon())}
-        >
-          Add new polygon
-        </button>
-      </div>
-      <PolygonInfo polygon={currentPolygon} />
       {/* textual representation of the polygons */}
       <ul>
         {polygons.map((polygon, index) => (
@@ -126,7 +119,7 @@ function PolygonDisplay() {
             <ol>
               {polygon.vertices.map(({ x, y }, index) => (
                 <li key={index}>
-                  ({x}, {y})
+                  ({roundToPrecision(x)}, {roundToPrecision(y)})
                 </li>
               ))}
               {index === currentPolygonIndex && (
@@ -143,6 +136,15 @@ function PolygonDisplay() {
             </ol>
           </li>
         ))}
+        <li>
+          <button
+            disabled={uiDisabled}
+            type="button"
+            onClick={() => dispatch(addPolygon())}
+          >
+            Add new polygon
+          </button>
+        </li>
       </ul>
     </>
   );
@@ -153,26 +155,25 @@ function PolygonInfo({ polygon }) {
 
   useEffect(() => run(), [run, polygon]);
 
-  if (isPending) {
-    return "Loading...";
-  }
+  let perimeter = 0;
+  let area = 0;
+  let type = "";
+
   if (error) {
     return `Something went wrong: ${error.message}`;
   }
   if (data) {
-    const perimeter = roundToPrecision(data.perimeter, 2);
-    const area = roundToPrecision(data.area, 2);
-    const type = data.type;
-
-    return (
-      <>
-        <p>Perimeter: {perimeter}</p>
-        <p>Area: {area}</p>
-        <p>Type: {type}</p>
-      </>
-    );
+    perimeter = roundToPrecision(data.perimeter);
+    area = roundToPrecision(data.area);
+    type = data.type;
   }
-  return "";
+  return (
+    <>
+      <div>Perimeter: {perimeter}</div>
+      <div>Area: {area}</div>
+      <div>Type: {type}</div>
+    </>
+  );
 }
 
 /**
@@ -180,7 +181,7 @@ function PolygonInfo({ polygon }) {
  * @param {Number} num the number to round
  * @param {Number} decimals how many decimals after the dot
  */
-function roundToPrecision(num, decimals) {
+function roundToPrecision(num, decimals = 2) {
   const p = Math.pow(10, decimals);
   return Math.round((num + Number.EPSILON) * p) / p;
 }
