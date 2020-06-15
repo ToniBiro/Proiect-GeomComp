@@ -18,7 +18,6 @@ const currentPolygonReducer = (state = 0, action) => {
 
 const initialPolygonList = [
   {
-    index: 0,
     vertices: [
       {
         x: 23,
@@ -29,12 +28,32 @@ const initialPolygonList = [
         y: 160,
       },
       {
-        x: 70,
-        y: 93,
+        x: 73,
+        y: 100,
       },
       {
         x: 150,
         y: 109,
+      },
+      {
+        x: 120,
+        y: 61.21,
+      },
+    ],
+  },
+  {
+    vertices: [
+      {
+        x: 122,
+        y: 156.21,
+      },
+      {
+        x: 87,
+        y: 83.21,
+      },
+      {
+        x: 214,
+        y: 59.21,
       },
     ],
   },
@@ -46,17 +65,18 @@ const polygonListReducer = (state = initialPolygonList, action) => {
       return [
         ...state,
         {
-          index: state.length,
           vertices: [],
         },
       ];
     default:
-      return state.map((polygon) => polygonReducer(polygon, action));
+      return state.map((polygon, index) =>
+        polygonReducer(polygon, index, action)
+      );
   }
 };
 
-function polygonReducer(state, action) {
-  if (state.index !== action.polygonIndex) {
+function polygonReducer(state, index, action) {
+  if (index !== action.polygonIndex) {
     return state;
   }
   switch (action.type) {
