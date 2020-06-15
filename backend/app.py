@@ -1,5 +1,4 @@
-from flask import Flask, jsonify
-from flask import request
+from flask import Flask, abort, request, jsonify
 from flask_cors import CORS
 
 from prgc.dcel import DCEL
@@ -41,17 +40,20 @@ def compute_intersection():
     # read json data from input
     data = request.get_json()
     if data is None:
-        return jsonify('Input is not JSON')
+        return abort(400)
 
     try:
         polygon1_aux = data['polygon1']
         polygon2_aux = data['polygon2']
         if not isinstance(polygon1_aux, list):
-            raise ValueError
+            raise TypeError
         if not isinstance(polygon2_aux, list):
-            raise ValueError
-    except (AttributeError, ValueError):
-        return jsonify('Wrong input')
+            raise TypeError
+    except (AttributeError, TypeError, ValueError):
+        return abort(400)
+
+    if len(polygon1_aux) == 0 or len(polygon2_aux) == 0:
+        return jsonify({'length': 0})
 
     dcel = DCEL()
 
@@ -99,25 +101,26 @@ def get_polygon_info():
     # read json data from input
     data = request.get_json()
     if data is None:
-        return jsonify('Input is not JSON')
+        return abort(400)
 
     try:
         polygon = data['polygon']
         if not isinstance(polygon, list):
             raise ValueError
-    except (AttributeError, ValueError):
-        return jsonify('Wrong input')
+    except (AttributeError, TypeError, ValueError):
+        return abort(400)
 
     polygon_info = {
-        'area': None,
-        'perimeter': None,
+        'area': 0,
+        'perimeter': 0,
         'type': None
     }
 
-    # compute the information
-    polygon_info['area'] = compute_area(polygon)
-    polygon_info['perimeter'] = compute_perimeter(polygon)
-    polygon_info['type'] = determine_polygon_type(polygon)
+    if len(polygon) != 0:
+        # compute the information
+        polygon_info['area'] = compute_area(polygon)
+        polygon_info['perimeter'] = compute_perimeter(polygon)
+        polygon_info['type'] = determine_polygon_type(polygon)
 
     return jsonify(polygon_info)
 
