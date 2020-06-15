@@ -1,4 +1,12 @@
-# Computational Geometry
+# Polygon Intersection
+
+## Description
+
+This project provides a Python library implementing a polygon intersection algorithm
+using Doubly Connected Edge Lists.
+
+The repo also contains a Flask server exposing the library functions,
+a React-based web interface, and an offline GUI in Python.
 
 ## Running
 
