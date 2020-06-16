@@ -168,7 +168,7 @@ function PolygonDisplay() {
 }
 
 function PolygonInfo({ polygon }) {
-  const { data, error, isPending, run } = usePolygonInfo(polygon);
+  const { data, error, run } = usePolygonInfo(polygon);
 
   useEffect(() => run(), [run, polygon]);
 
