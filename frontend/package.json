@@ -27,8 +27,11 @@
     "check": "eslint ./src/",
     "format": "prettier --write ./src/",
     "build": "react-scripts build",
+    "test": "npm run cypress:run",
     "eject": "react-scripts eject",
-    "doc": "jsdoc -c jsdoc.conf.json"
+    "doc": "jsdoc -c jsdoc.conf.json",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"

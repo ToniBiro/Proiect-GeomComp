@@ -19,7 +19,9 @@ jobs:
         run: docker-compose build
       - name: Start the services
         run: docker-compose up -d
-      - name: Run the automated backend tests
+      - name: Run the automated front end tests
+        run: docker run interseco_frontend npm test
+      - name: Run the automated back end tests
         run: docker run interseco_backend pytest
       - name: Shut down the services
         run: docker-compose down
