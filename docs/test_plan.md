@@ -15,6 +15,7 @@ As new features will be added, the testing plan might include new tests.
 All tests we will presume that all polygons represented as polygonal chains are valid and their validity won't be checked.
 
 ## Tests Approach
+
 All tests will be hardcoded, more complex testing is encouraged during the unit testing.
 All tests will be performed manually before they are verified and add them to the regression tests.
 
@@ -25,16 +26,17 @@ The backend is up and running on a server and the test will call an API and veri
 # Test Description
 
 - test polygon info
-  - Description: Sends multiple post requests to the backed with a polygonal chain and all its circular permutations 
+
+  - Description: Sends multiple post requests to the backed with a polygonal chain and all its circular permutations
     ```
     Here is an example with all circular permutation for the following polygon chain: [(0, 0), (1, 0), (1, 1), (0, 1)]
-      [(0, 0), (1, 0), (1, 1), (0, 1)], 
-      [(1, 0), (1, 1), (0, 1), (0, 0)],  
-      [(1, 1), (0, 1), (0, 0), (1, 0)],  
+      [(0, 0), (1, 0), (1, 1), (0, 1)],
+      [(1, 0), (1, 1), (0, 1), (0, 0)],
+      [(1, 1), (0, 1), (0, 0), (1, 0)],
       [(0, 1), (0, 0), (1, 0), (1, 1)]
     ```
   - Target: all the circular permutations of polygon chain must have same area, perimeter and type as specified in the expected response
-  
+
 - test polygon intersection
   - Description: Sends multiple post request to the backend with 2 polygonal chains and all possible combinations of the circular permutation for both of them
   - Target: all the intersections for the 2 polygonal chains and all possible combinations of the circular permutations must have the same intersection. Warning: even if 2 polygonal chains might not have the same vertices order, one might be a circular permutation of the other one; If the intersection has more than one polygon, the polygons might appear in any order

@@ -1,4 +1,4 @@
-# Documentation: Tehnical Description
+# Backend technical description
 
 ## List of Classes for Backend:
 
@@ -52,7 +52,7 @@
 
 ## List of Features for Backend:
 
-\*All classes are used to represent the structure of a polygon which is needed in all backend features
+All classes are used to represent the structure of a polygon which is needed in all backend features
 
 - [get_polygon_info](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/app.py#L88): given 1 polygon as a polygonal chain as parameter, it shall return its [area](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L74), [perimeter](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L93) and [type](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/prgc/primitive.py#L119) (convex or concave)
 - [compute_intersection](https://github.com/ToniBiro/Proiect-GeomComp/blob/45cf8b0ac8d0c27ce7710e266fcc4e2ed4da49e9/backend/app.py#L19): given 2 polygons as polygonal chains as parameters, transform them in doubly connected edge list and perform the intersection; the returned value shall contain the fist polygon without the intersection, the second polygon without the intersection and the intersection reprezented as multiple polygonal chains
